@@ -56,7 +56,7 @@ public class ProgramaClient {
 							telefon=lector.nextLine();
 						}
 						rClient.telefon=Integer.parseInt(telefon);
-						System.out.println("Adreça");
+						System.out.println("Adreï¿½a");
 						rClient.adreca=lector.nextLine();
 						client.afegirClient(rClient, con);
 						break;
@@ -65,14 +65,30 @@ public class ProgramaClient {
 						dni=lector.nextLine();
 						System.out.println("Contrasenya");
 						contrasenya=lector.nextLine();
-						int opcioMenu2=0;
+						int opcioMenuLogin=0;
 						if(client.loginClient(dni,contrasenya,con)) {
 							do {
 								System.out.println(menuLogin());
-								opcioMenu2=lector.nextInt();
+								opcioMenuLogin=lector.nextInt();
 								lector.nextLine();
-								switch(opcioMenu2) {
+								switch(opcioMenuLogin) {
 									case 1:
+										int opcioMenuModificar=0;
+										do {
+											System.out.println(menuModificar());
+											opcioMenuModificar=lector.nextInt();
+											lector.nextLine();
+											switch(opcioMenuModificar) {
+												case 1:
+													break;
+												case 2:
+													break;
+												case 3:
+													break;
+												case 4:
+													break;
+											}
+										}while(opcioMenuModificar!=4);
 										break;
 									case 2:
 										break;
@@ -81,7 +97,7 @@ public class ProgramaClient {
 									case 4:
 										break;
 								}
-							}while(opcioMenu2!=4);
+							}while(opcioMenuLogin!=4);
 						}else System.out.println("Usuari o contrasenya incorrecte");
 						break;
 					case 3:
@@ -90,7 +106,6 @@ public class ProgramaClient {
 			}while(opcioMenu!=3);
 			lector.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -102,6 +117,10 @@ public class ProgramaClient {
 	}
 	public static String menuLogin() {
 		String menu="1.Modificar client\n2.Borrar Client\n3.Comprar\n4.Sortir";
+		return menu;
+	}
+	public static String menuModificar() {
+		String menu="1.Modificar correu\n2.Modificar telefon\n3.Modificar adreÃ§a\n4.Sortir";
 		return menu;
 	}
 
