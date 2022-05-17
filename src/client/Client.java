@@ -21,6 +21,12 @@ public class Client {
         	System.out.println("Client insertat correctament");
         } else System.out.println("El dni del client ja existeix");
 	}
+	public boolean loginClient(String dni,String contrasenya,Connection con) throws SQLException{
+		Statement stmt=con.createStatement(0,ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs=stmt.executeQuery("SELECT * FROM clients WHERE dni='"+dni+"' and contrasenya='"+contrasenya+"'");
+        if(!rs.next()) return false;
+        else return true;
+	}
 	public boolean validarDNI(String dni) {
 		if(dni.length()==9) {
 			int num = 0;

@@ -18,9 +18,9 @@ public class ProgramaClient {
 				System.out.println(menuPrincipal());
 				opcioMenu=lector.nextInt();
 				lector.nextLine();
+				Client client=new Client();
 				switch(opcioMenu) {
-					case 1:
-						Client client=new Client();
+					case 1:						
 						RegisteClient rClient=new RegisteClient();
 						System.out.println("DNI");
 						String dni=lector.nextLine();
@@ -61,11 +61,33 @@ public class ProgramaClient {
 						client.afegirClient(rClient, con);
 						break;
 					case 2:
+						System.out.println("DNI");
+						dni=lector.nextLine();
+						System.out.println("Contrasenya");
+						contrasenya=lector.nextLine();
+						int opcioMenu2=0;
+						if(client.loginClient(dni,contrasenya,con)) {
+							do {
+								System.out.println(menuLogin());
+								opcioMenu2=lector.nextInt();
+								lector.nextLine();
+								switch(opcioMenu2) {
+									case 1:
+										break;
+									case 2:
+										break;
+									case 3:
+										break;
+									case 4:
+										break;
+								}
+							}while(opcioMenu2!=4);
+						}else System.out.println("Usuari o contrasenya incorrecte");
 						break;
 					case 3:
 						break;
 				}
-			}while(opcioMenu!=5);
+			}while(opcioMenu!=3);
 			lector.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -76,6 +98,10 @@ public class ProgramaClient {
 	
 	public static String menuPrincipal() {
 		String menu="1.Alta client\n2.Login\n3.Sortir";
+		return menu;
+	}
+	public static String menuLogin() {
+		String menu="1.Modificar client\n2.Borrar Client\n3.Comprar\n4.Sortir";
 		return menu;
 	}
 
