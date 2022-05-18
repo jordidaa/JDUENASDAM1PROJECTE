@@ -56,7 +56,7 @@ public class ProgramaClient {
 							telefon=lector.nextLine();
 						}
 						rClient.telefon=Integer.parseInt(telefon);
-						System.out.println("Adre�a");
+						System.out.println("Adreca");
 						rClient.adreca=lector.nextLine();
 						client.afegirClient(rClient, con);
 						break;
@@ -80,10 +80,26 @@ public class ProgramaClient {
 											lector.nextLine();
 											switch(opcioMenuModificar) {
 												case 1:
+													System.out.println("Correu Electronic");
+													correu=lector.nextLine();
+													if(client.validarCorreu(correu)) {
+														client.modificarCorreu(dni, correu, con);
+														System.out.println("Correu Electronic modificat correctament");
+													}else System.out.println("Correu Electronic no valid");
 													break;
 												case 2:
+													System.out.println("Numero de telefon");
+													telefon=lector.nextLine();
+													if(client.validarTelefon(telefon)) {
+														System.out.println("Numero de telefon modificat correctament");
+														client.modificarTelefon(dni, Integer.parseInt(telefon), con);
+													}else System.out.println("Numero de telefon no valid");
 													break;
 												case 3:
+													System.out.println("Adreca");
+													String adreca=lector.nextLine();
+													client.modificarAdreca(dni, adreca, con);
+													System.out.println("Adreca modificada correctament");
 													break;
 												case 4:
 													break;
@@ -91,6 +107,12 @@ public class ProgramaClient {
 										}while(opcioMenuModificar!=4);
 										break;
 									case 2:
+										System.out.println("Contrasenya");
+										contrasenya=lector.nextLine();
+										if(client.BorrarClient(dni, contrasenya, con)) {
+											System.out.println("Usuari borrat");
+											opcioMenuLogin=4;
+										}else System.out.println("Contrasenya incorrecte");
 										break;
 									case 3:
 										break;
@@ -120,7 +142,7 @@ public class ProgramaClient {
 		return menu;
 	}
 	public static String menuModificar() {
-		String menu="1.Modificar correu\n2.Modificar telefon\n3.Modificar adreça\n4.Sortir";
+		String menu="1.Modificar correu\n2.Modificar telefon\n3.Modificar adreca\n4.Sortir";
 		return menu;
 	}
 

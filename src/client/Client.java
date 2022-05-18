@@ -21,6 +21,36 @@ public class Client {
         	System.out.println("Client insertat correctament");
         } else System.out.println("El dni del client ja existeix");
 	}
+	public void modificarCorreu(String dni,String correu,Connection con) throws SQLException{
+		Statement stmt=con.createStatement(0,ResultSet.CONCUR_UPDATABLE);
+        ResultSet rs=stmt.executeQuery("SELECT * FROM clients WHERE dni='"+dni+"'");
+        rs.first();
+        rs.updateString("correu_electronic", correu);
+        rs.updateRow();
+	}
+	public void modificarTelefon(String dni,int telefon,Connection con) throws SQLException{
+		Statement stmt=con.createStatement(0,ResultSet.CONCUR_UPDATABLE);
+        ResultSet rs=stmt.executeQuery("SELECT * FROM clients WHERE dni='"+dni+"'");
+        rs.first();
+        rs.updateInt("telefon", telefon);
+        rs.updateRow();
+	}
+	public void modificarAdreca(String dni,String adreca,Connection con) throws SQLException{
+		Statement stmt=con.createStatement(0,ResultSet.CONCUR_UPDATABLE);
+        ResultSet rs=stmt.executeQuery("SELECT * FROM clients WHERE dni='"+dni+"'");
+        rs.first();
+        rs.updateString("adreca", adreca);
+        rs.updateRow();
+	}
+	public boolean BorrarClient(String dni,String contrasenya,Connection con) throws SQLException{
+		Statement stmt=con.createStatement(0,ResultSet.CONCUR_UPDATABLE);
+        ResultSet rs=stmt.executeQuery("SELECT * FROM clients WHERE dni='"+dni+"' and contrasenya='"+contrasenya+"'");
+        if(!rs.next()) return false;
+        else {
+        	rs.deleteRow();
+        	return true;
+        }
+	}
 	public boolean loginClient(String dni,String contrasenya,Connection con) throws SQLException{
 		Statement stmt=con.createStatement(0,ResultSet.CONCUR_READ_ONLY);
         ResultSet rs=stmt.executeQuery("SELECT * FROM clients WHERE dni='"+dni+"' and contrasenya='"+contrasenya+"'");
