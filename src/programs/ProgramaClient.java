@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Scanner;
 import client.*;
+import funcionsGenerals.*;
 
 public class ProgramaClient {
 
@@ -16,10 +17,9 @@ public class ProgramaClient {
 			String opcioMenu="";
 			int opcioMenuInt=0;
 			do {
-				Client client=new Client();
 				System.out.println(menuPrincipal());
 				opcioMenu=lector.nextLine();
-				while(!client.validarOpcioMenu(opcioMenu)) {
+				while(!FuncionsGenerals.validarOpcioMenu(opcioMenu)) {
 					System.out.println("L'opcio no pot contindre lletres i nomes pot tenir un caracter");
 					System.out.println(menuPrincipal());
 					opcioMenu=lector.nextLine();
@@ -31,7 +31,7 @@ public class ProgramaClient {
 						RegisteClient rClient=new RegisteClient();
 						System.out.println("DNI");
 						String dni=lector.nextLine();
-						while(!client.validarDNI(dni)) {
+						while(!Client.validarDNI(dni)) {
 							System.out.println("DNI incorecte torna l a posar");
 							dni=lector.nextLine();
 						}
@@ -40,7 +40,7 @@ public class ProgramaClient {
 						String contrasenya=lector.nextLine();
 						System.out.println("Repeteix la Contrasenya");
 						String contrasenyaRp=lector.nextLine();
-						while(!client.validarContrasenya(contrasenya, contrasenyaRp)) {
+						while(!Client.validarContrasenya(contrasenya, contrasenyaRp)) {
 							System.out.println("Les contresenyes no coincideixen o es masa curta, torna la a posar");
 							contrasenya=lector.nextLine();
 							System.out.println("Repeteix la Contrasenya");
@@ -51,21 +51,21 @@ public class ProgramaClient {
 						rClient.nom=lector.nextLine();
 						System.out.println("Correu Electronic");
 						String correu=lector.nextLine();
-						while(!client.validarCorreu(correu)) {
+						while(!Client.validarCorreu(correu)) {
 							System.out.println("Correu Electronic no valid torna l a posar");
 							correu=lector.nextLine();
 						}
 						rClient.correu=correu;
 						System.out.println("Numero de telefon");
 						String telefon=lector.nextLine();
-						while(!client.validarTelefon(telefon)) {
+						while(!Client.validarTelefon(telefon)) {
 							System.out.println("Numero de telefon no valid torna l a posar");
 							telefon=lector.nextLine();
 						}
 						rClient.telefon=Integer.parseInt(telefon);
 						System.out.println("Adreca");
 						rClient.adreca=lector.nextLine();
-						client.afegirClient(rClient, con);
+						Client.afegirClient(rClient, con);
 						break;
 					case 2:
 						System.out.println("DNI");
@@ -74,12 +74,12 @@ public class ProgramaClient {
 						contrasenya=lector.nextLine();
 						String opcioMenuLogin="";
 						int opcioMenuLoginInt=0;
-						if(client.loginClient(dni,contrasenya,con)) {
+						if(Client.loginClient(dni,contrasenya,con)) {
 							do {
 								System.out.println(menuLogin());
 								opcioMenuLogin=lector.nextLine();
 								lector.nextLine();
-								while(!client.validarOpcioMenu(opcioMenuLogin)) {
+								while(!FuncionsGenerals.validarOpcioMenu(opcioMenuLogin)) {
 									System.out.println("L'opcio no pot contindre lletres i nomes pot tenir un caracter");
 									System.out.println(menuLogin());
 									opcioMenuLogin=lector.nextLine();
@@ -93,7 +93,7 @@ public class ProgramaClient {
 											System.out.println(menuModificar());
 											opcioMenuModificar=lector.nextLine();
 											lector.nextLine();
-											while(!client.validarOpcioMenu(opcioMenuModificar)) {
+											while(!FuncionsGenerals.validarOpcioMenu(opcioMenuModificar)) {
 												System.out.println("L'opcio no pot contindre lletres i nomes pot tenir un caracter");
 												System.out.println(menuModificar());
 												opcioMenuModificar=lector.nextLine();
@@ -103,23 +103,23 @@ public class ProgramaClient {
 												case 1:
 													System.out.println("Correu Electronic");
 													correu=lector.nextLine();
-													if(client.validarCorreu(correu)) {
-														client.modificarCorreu(dni, correu, con);
+													if(Client.validarCorreu(correu)) {
+														Client.modificarCorreu(dni, correu, con);
 														System.out.println("Correu Electronic modificat correctament");
 													}else System.out.println("Correu Electronic no valid");
 													break;
 												case 2:
 													System.out.println("Numero de telefon");
 													telefon=lector.nextLine();
-													if(client.validarTelefon(telefon)) {
+													if(Client.validarTelefon(telefon)) {
 														System.out.println("Numero de telefon modificat correctament");
-														client.modificarTelefon(dni, Integer.parseInt(telefon), con);
+														Client.modificarTelefon(dni, Integer.parseInt(telefon), con);
 													}else System.out.println("Numero de telefon no valid");
 													break;
 												case 3:
 													System.out.println("Adreca");
 													String adreca=lector.nextLine();
-													client.modificarAdreca(dni, adreca, con);
+													Client.modificarAdreca(dni, adreca, con);
 													System.out.println("Adreca modificada correctament");
 													break;
 												case 4:
@@ -130,7 +130,7 @@ public class ProgramaClient {
 									case 2:
 										System.out.println("Contrasenya");
 										contrasenya=lector.nextLine();
-										if(client.BorrarClient(dni, contrasenya, con)) {
+										if(Client.BorrarClient(dni, contrasenya, con)) {
 											System.out.println("Usuari borrat");
 											opcioMenuLoginInt=4;
 										}else System.out.println("Contrasenya incorrecte");
