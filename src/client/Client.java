@@ -57,6 +57,16 @@ public class Client {
         if(!rs.next()) return false;
         else return true;
 	}
+	public boolean validarOpcioMenu(String opcioMenu) {
+		if(opcioMenu.length()==1) {
+			int num = 0;
+			while(num!=1&&Character.isDigit(opcioMenu.charAt(num))) {
+				num++;
+			}
+			if(num==1) return true;
+			else return false;
+		}else return false;
+	}
 	public boolean validarDNI(String dni) {
 		if(dni.length()==9) {
 			int num = 0;

@@ -13,13 +13,20 @@ public class ProgramaClient {
 		try {
 			Connection con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/botiga","postgres","Jd230103");
 			Scanner lector = new Scanner(System.in);
-			int opcioMenu=0;
+			String opcioMenu="";
+			int opcioMenuInt=0;
 			do {
-				System.out.println(menuPrincipal());
-				opcioMenu=lector.nextInt();
-				lector.nextLine();
 				Client client=new Client();
-				switch(opcioMenu) {
+				System.out.println(menuPrincipal());
+				opcioMenu=lector.nextLine();
+				while(!client.validarOpcioMenu(opcioMenu)) {
+					System.out.println("L'opcio no pot contindre lletres i nomes pot tenir un caracter");
+					System.out.println(menuPrincipal());
+					opcioMenu=lector.nextLine();
+				}
+				opcioMenuInt=Integer.parseInt(opcioMenu);
+				
+				switch(opcioMenuInt) {
 					case 1:						
 						RegisteClient rClient=new RegisteClient();
 						System.out.println("DNI");
@@ -65,20 +72,34 @@ public class ProgramaClient {
 						dni=lector.nextLine();
 						System.out.println("Contrasenya");
 						contrasenya=lector.nextLine();
-						int opcioMenuLogin=0;
+						String opcioMenuLogin="";
+						int opcioMenuLoginInt=0;
 						if(client.loginClient(dni,contrasenya,con)) {
 							do {
 								System.out.println(menuLogin());
-								opcioMenuLogin=lector.nextInt();
+								opcioMenuLogin=lector.nextLine();
 								lector.nextLine();
-								switch(opcioMenuLogin) {
+								while(!client.validarOpcioMenu(opcioMenuLogin)) {
+									System.out.println("L'opcio no pot contindre lletres i nomes pot tenir un caracter");
+									System.out.println(menuLogin());
+									opcioMenuLogin=lector.nextLine();
+								}
+								opcioMenuLoginInt=Integer.parseInt(opcioMenuLogin);
+								switch(opcioMenuLoginInt) {
 									case 1:
-										int opcioMenuModificar=0;
+										String opcioMenuModificar="";
+										int opcioMenuModificarInt=0;
 										do {
 											System.out.println(menuModificar());
-											opcioMenuModificar=lector.nextInt();
+											opcioMenuModificar=lector.nextLine();
 											lector.nextLine();
-											switch(opcioMenuModificar) {
+											while(!client.validarOpcioMenu(opcioMenuModificar)) {
+												System.out.println("L'opcio no pot contindre lletres i nomes pot tenir un caracter");
+												System.out.println(menuModificar());
+												opcioMenuModificar=lector.nextLine();
+											}
+											opcioMenuModificarInt=Integer.parseInt(opcioMenuModificar);
+											switch(opcioMenuModificarInt) {
 												case 1:
 													System.out.println("Correu Electronic");
 													correu=lector.nextLine();
@@ -104,14 +125,14 @@ public class ProgramaClient {
 												case 4:
 													break;
 											}
-										}while(opcioMenuModificar!=4);
+										}while(opcioMenuModificarInt!=4);
 										break;
 									case 2:
 										System.out.println("Contrasenya");
 										contrasenya=lector.nextLine();
 										if(client.BorrarClient(dni, contrasenya, con)) {
 											System.out.println("Usuari borrat");
-											opcioMenuLogin=4;
+											opcioMenuLoginInt=4;
 										}else System.out.println("Contrasenya incorrecte");
 										break;
 									case 3:
@@ -119,13 +140,13 @@ public class ProgramaClient {
 									case 4:
 										break;
 								}
-							}while(opcioMenuLogin!=4);
+							}while(opcioMenuLoginInt!=4);
 						}else System.out.println("Usuari o contrasenya incorrecte");
 						break;
 					case 3:
 						break;
 				}
-			}while(opcioMenu!=3);
+			}while(opcioMenuInt!=3);
 			lector.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
