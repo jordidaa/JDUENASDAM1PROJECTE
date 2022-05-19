@@ -49,6 +49,8 @@ public class ProgramaEmpresa {
 										System.out.println("Prem return per tornar al menu");
 										lector.nextLine();
 									}else System.out.println("Dni no valid");
+									System.out.println("Prem return per tornar al menu");
+									lector.nextLine();
 									break;
 								case 2:
 									System.out.println(Client.llistarDadesClient(con));
@@ -68,7 +70,7 @@ public class ProgramaEmpresa {
 							opcioMenuProducte=lector.nextLine();
 							while(!FuncionsGenerals.validarOpcioMenu(opcioMenuProducte)) {
 								System.out.println("L'opcio no pot contindre lletres i nomes pot tenir un caracter");
-								System.out.println(menuClients());
+								System.out.println(menuProducte());
 								opcioMenuProducte=lector.nextLine();
 							}
 							opcioMenuProducteInt=Integer.parseInt(opcioMenuProducte);
@@ -85,10 +87,147 @@ public class ProgramaEmpresa {
 									rProducte.codi=codiProducte;
 									System.out.println("Nom producte");
 									rProducte.nom=lector.nextLine();
+									System.out.println("Stock inicial");
+									String stock=lector.nextLine();
+									while(!FuncionsGenerals.validarInt(stock)) {
+										System.out.println("L'stock conte lletres");
+										System.out.println("Stock inicial");
+										stock=lector.nextLine();
+									}
+									rProducte.stock=Integer.parseInt(stock);
+									System.out.println("Preu");
+									String preu=lector.nextLine();
+									while(!FuncionsGenerals.validarDouble(preu)) {
+										System.out.println("El preu conte lletres o mes de un punt");
+										System.out.println("Stock inicial");
+										preu=lector.nextLine();
+									}
+									rProducte.preu=Double.parseDouble(preu);
+									System.out.println("Iva");
+									String iva=lector.nextLine();
+									while(!FuncionsGenerals.validarInt(iva)) {
+										System.out.println("L'iva conte lletres");
+										System.out.println("Iva");
+										iva=lector.nextLine();
+									}
+									rProducte.iva=Integer.parseInt(iva);
+									Empresa.afegirProducte(rProducte, con);
+									System.out.println("Prem return per tornar al menu");
+									lector.nextLine();
 									break;
 								case 2:
+									String opcioModificarProducte="";
+									int opcioModificarProducteInt=0;
+									do {
+										System.out.println(menuModificarProducte());
+										opcioModificarProducte=lector.nextLine();
+										while(!FuncionsGenerals.validarOpcioMenu(opcioMenuProducte)) {
+											System.out.println("L'opcio no pot contindre lletres i nomes pot tenir un caracter");
+											System.out.println(menuModificarProducte());
+											opcioModificarProducte=lector.nextLine();
+										}
+										opcioModificarProducteInt=Integer.parseInt(opcioModificarProducte);
+										switch(opcioModificarProducteInt) {
+											case 1:
+												System.out.println("Codi producte(Ha de tenir 2 numeros i 2 lletres)");
+												codiProducte=lector.nextLine();
+												while(!Empresa.validarCodiProducte(codiProducte)) {
+													System.out.println("El codi de producte ha de tenir 2 numeros i 2 lletres");
+													System.out.println("Codi producte(Ha de tenir 2 numeros i 2 lletres)");
+													codiProducte=lector.nextLine();
+												}
+												if(Empresa.buscarProducte(codiProducte, con)) {
+													System.out.println("Cuant stock vols afegir?");
+													stock=lector.nextLine();
+													while(!FuncionsGenerals.validarInt(stock)) {
+														System.out.println("L'stock conte lletres");
+														System.out.println("Cuant stock vols afegir?");
+														stock=lector.nextLine();
+													}
+													Empresa.afegirStock(stock, codiProducte, con);
+													System.out.println("Stock afegit correctament");
+													System.out.println("Prem return per tornar al menu");
+													lector.nextLine();
+												}else {
+													System.out.println("El producte no existeix");
+													System.out.println("Prem return per tornar al menu");
+													lector.nextLine();		
+												}
+												break;
+											case 2:
+												System.out.println("Codi producte(Ha de tenir 2 numeros i 2 lletres)");
+												codiProducte=lector.nextLine();
+												while(!Empresa.validarCodiProducte(codiProducte)) {
+													System.out.println("El codi de producte ha de tenir 2 numeros i 2 lletres");
+													System.out.println("Codi producte(Ha de tenir 2 numeros i 2 lletres)");
+													codiProducte=lector.nextLine();
+												}
+												if(Empresa.buscarProducte(codiProducte, con)) {
+													System.out.println("Quin preu vols posar?");
+													preu=lector.nextLine();
+													while(!FuncionsGenerals.validarDouble(preu)) {
+														System.out.println("El preu conte lletres o mes de un punt");
+														System.out.println("Quin preu vols posar?");
+														preu=lector.nextLine();
+													}
+													Empresa.modificarPreu(preu, codiProducte, con);
+													System.out.println("Preu modificat correctament");
+													System.out.println("Prem return per tornar al menu");
+													lector.nextLine();
+												}else {
+													System.out.println("El producte no existeix");
+													System.out.println("Prem return per tornar al menu");
+													lector.nextLine();
+												}												
+												break;
+											case 3:
+												System.out.println("Codi producte(Ha de tenir 2 numeros i 2 lletres)");
+												codiProducte=lector.nextLine();
+												while(!Empresa.validarCodiProducte(codiProducte)) {
+													System.out.println("El codi de producte ha de tenir 2 numeros i 2 lletres");
+													System.out.println("Codi producte(Ha de tenir 2 numeros i 2 lletres)");
+													codiProducte=lector.nextLine();
+												}
+												if(Empresa.buscarProducte(codiProducte, con)) {
+													System.out.println("Quin iva vols posar?");
+													iva=lector.nextLine();
+													while(!FuncionsGenerals.validarInt(iva)) {
+														System.out.println("L'iva conte lletres");
+														System.out.println("Quin iva vols posar?");
+														iva=lector.nextLine();
+													}
+													Empresa.modificarIva(iva, codiProducte, con);
+													System.out.println("Iva modificat correctament");
+													System.out.println("Prem return per tornar al menu");
+													lector.nextLine();
+												}else {
+													System.out.println("El producte no existeix");
+													System.out.println("Prem return per tornar al menu");
+													lector.nextLine();
+												}
+												break;
+											case 4:
+												break;
+										}
+									}while(opcioModificarProducteInt!=4);
 									break;
 								case 3:
+									System.out.println("Codi producte(Ha de tenir 2 numeros i 2 lletres)");
+									codiProducte=lector.nextLine();
+									while(!Empresa.validarCodiProducte(codiProducte)) {
+										System.out.println("El codi de producte ha de tenir 2 numeros i 2 lletres");
+										System.out.println("Codi producte(Ha de tenir 2 numeros i 2 lletres)");
+										codiProducte=lector.nextLine();
+									}
+									if(Empresa.borrarProducte(codiProducte, con)) {
+										System.out.println("Producte borrat correctament");
+										System.out.println("Prem return per tornar al menu");
+										lector.nextLine();
+									}else {
+										System.out.println("Producte no trobat");
+										System.out.println("Prem return per tornar al menu");
+										lector.nextLine();
+									}
 									break;
 								case 4:
 									break;
@@ -116,6 +255,10 @@ public class ProgramaEmpresa {
 	}
 	public static String menuProducte() {
 		String menu="1.Alta Producte\n2.Modificar Producte\n3.Baixa Producte\n4.Sortir";
+		return menu;
+	}
+	public static String menuModificarProducte() {
+		String menu="1.Modificar Stock\n2.Modificar preu\n3.Modificar iva\n4.Sortir";
 		return menu;
 	}
 }

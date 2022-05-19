@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Scanner;
 import client.*;
+import empresa.*;
 import funcionsGenerals.*;
 
 public class ProgramaClient {
@@ -66,6 +67,8 @@ public class ProgramaClient {
 						System.out.println("Adreca");
 						rClient.adreca=lector.nextLine();
 						Client.afegirClient(rClient, con);
+						System.out.println("Prem return per tornar al menu");
+						lector.nextLine();
 						break;
 					case 2:
 						System.out.println("DNI");
@@ -107,6 +110,8 @@ public class ProgramaClient {
 														Client.modificarCorreu(dni, correu, con);
 														System.out.println("Correu Electronic modificat correctament");
 													}else System.out.println("Correu Electronic no valid");
+													System.out.println("Prem return per tornar al menu");
+													lector.nextLine();
 													break;
 												case 2:
 													System.out.println("Numero de telefon");
@@ -115,12 +120,16 @@ public class ProgramaClient {
 														System.out.println("Numero de telefon modificat correctament");
 														Client.modificarTelefon(dni, Integer.parseInt(telefon), con);
 													}else System.out.println("Numero de telefon no valid");
+													System.out.println("Prem return per tornar al menu");
+													lector.nextLine();
 													break;
 												case 3:
 													System.out.println("Adreca");
 													String adreca=lector.nextLine();
 													Client.modificarAdreca(dni, adreca, con);
 													System.out.println("Adreca modificada correctament");
+													System.out.println("Prem return per tornar al menu");
+													lector.nextLine();
 													break;
 												case 4:
 													break;
@@ -134,8 +143,11 @@ public class ProgramaClient {
 											System.out.println("Usuari borrat");
 											opcioMenuLoginInt=4;
 										}else System.out.println("Contrasenya incorrecte");
+										System.out.println("Prem return per tornar al menu");
+										lector.nextLine();
 										break;
 									case 3:
+										System.out.println(Empresa.llistarProductes(con));
 										break;
 									case 4:
 										break;

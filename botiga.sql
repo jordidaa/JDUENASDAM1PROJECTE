@@ -30,7 +30,7 @@ CREATE TABLE public.clients (
     nom character varying,
     correu_electronic character varying,
     telefon integer,
-    adreca character(200)
+    adreca character varying(200)
 );
 
 
@@ -42,8 +42,12 @@ ALTER TABLE public.clients OWNER TO postgres;
 
 CREATE TABLE public.factura (
     num_factura integer NOT NULL,
-    client character varying(9),
-    data_factura date
+    data_factura date,
+    dni character varying(9),
+    nom character varying,
+    correu_electronic character varying,
+    telefon integer,
+    adreca character varying(200)
 );
 
 
@@ -60,7 +64,7 @@ CREATE TABLE public.linia_factura (
     iva integer,
     quantitat integer,
     nom_producte character varying,
-    producte character varying
+    codi_producte character varying(4)
 );
 
 
@@ -76,8 +80,7 @@ CREATE TABLE public.productes (
     stock integer,
     preu numeric,
     iva integer,
-    unitats_venudes integer,
-    actiu boolean
+    unitats_venudes integer
 );
 
 
@@ -88,7 +91,7 @@ ALTER TABLE public.productes OWNER TO postgres;
 --
 
 COPY public.clients (dni, contrasenya, nom, correu_electronic, telefon, adreca) FROM stdin;
-41582948Y	Jordi1234	Jordi Dueñas	Jordidaa@gmail.com	610020865	Penya Bisbalenca 19                                                                                                                                                                                     
+41582948Y	Jordi1234	Jordi Dueñas	Jordidaa@gmail.com	610020865	Penya Bisbalenca 19
 \.
 
 
@@ -96,7 +99,7 @@ COPY public.clients (dni, contrasenya, nom, correu_electronic, telefon, adreca) 
 -- Data for Name: factura; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.factura (num_factura, client, data_factura) FROM stdin;
+COPY public.factura (num_factura, data_factura, dni, nom, correu_electronic, telefon, adreca) FROM stdin;
 \.
 
 
@@ -104,7 +107,7 @@ COPY public.factura (num_factura, client, data_factura) FROM stdin;
 -- Data for Name: linia_factura; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.linia_factura (num_factura, num_linia, preu_producte, iva, quantitat, nom_producte, producte) FROM stdin;
+COPY public.linia_factura (num_factura, num_linia, preu_producte, iva, quantitat, nom_producte, codi_producte) FROM stdin;
 \.
 
 
@@ -112,7 +115,8 @@ COPY public.linia_factura (num_factura, num_linia, preu_producte, iva, quantitat
 -- Data for Name: productes; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.productes (codi, nom, stock, preu, iva, unitats_venudes, actiu) FROM stdin;
+COPY public.productes (codi, nom, stock, preu, iva, unitats_venudes) FROM stdin;
+CO01	Cocacola	200	0.5	21	0
 \.
 
 
@@ -149,32 +153,10 @@ ALTER TABLE ONLY public.productes
 
 
 --
--- Name: fki_fk_dni; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX fki_fk_dni ON public.factura USING btree (client);
-
-
---
 -- Name: fki_fk_factura; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX fki_fk_factura ON public.linia_factura USING btree (num_factura);
-
-
---
--- Name: fki_fk_producte; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX fki_fk_producte ON public.linia_factura USING btree (producte);
-
-
---
--- Name: factura fk_dni; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.factura
-    ADD CONSTRAINT fk_dni FOREIGN KEY (client) REFERENCES public.clients(dni) NOT VALID;
 
 
 --
@@ -183,14 +165,6 @@ ALTER TABLE ONLY public.factura
 
 ALTER TABLE ONLY public.linia_factura
     ADD CONSTRAINT fk_factura FOREIGN KEY (num_factura) REFERENCES public.factura(num_factura) NOT VALID;
-
-
---
--- Name: linia_factura fk_producte; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.linia_factura
-    ADD CONSTRAINT fk_producte FOREIGN KEY (producte) REFERENCES public.productes(codi) NOT VALID;
 
 
 --
