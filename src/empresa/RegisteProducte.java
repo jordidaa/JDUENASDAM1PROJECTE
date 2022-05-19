@@ -1,7 +1,8 @@
 package empresa;
 
 public class RegisteProducte {
-	String codi,nom;
-	int stock,iva,unitatsVenudes;
-	double preu;
+	public String codi,nom;
+	public int stock,iva,unitatsVenudes;
+	public double preu;
+	public boolean actiu;
 }

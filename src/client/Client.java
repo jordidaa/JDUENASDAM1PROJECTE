@@ -48,10 +48,13 @@ public class Client {
         String frase="";
        if(rs.next()){
     	   rs.previous();
+    	   frase=frase+String.format("%-9s", "DNI")+"|"+String.format("%-40s","NOM")+"|"
+           		+String.format("%-40s", "CORREU ELECTRONIC")+"|"+String.format("%-9s", "TELEFON")+"|"
+           		+ String.format("%-100s","ADRECA")+"\n";
         	while(rs.next()) {
-        		frase=frase+rs.getString("dni")+" - "+rs.getString("nom")+" - "
-        		+rs.getString("correu_electronic")+" - "+rs.getInt("telefon")+" - "
-        		+ rs.getString("adreca");
+        		frase=frase+rs.getString("dni")+"|"+String.format("%-40s", rs.getString("nom"))+"|"
+        		+String.format("%-40s", rs.getString("correu_electronic"))+"|"+rs.getInt("telefon")+"|"
+        		+ String.format("%-100s",rs.getString("adreca"))+"\n";
         	}
         }else frase=frase+"El dni no existeix a la base de dades";
         return frase;
@@ -61,10 +64,13 @@ public class Client {
 		Statement stmt=con.createStatement(0,ResultSet.CONCUR_READ_ONLY);
         ResultSet rs=stmt.executeQuery("SELECT * FROM clients");
         String frase="";
+        frase=frase+String.format("%-9s", "DNI")+"|"+String.format("%-40s","NOM")+"|"
+           		+String.format("%-40s", "CORREU ELECTRONIC")+"|"+String.format("%-9s", "TELEFON")+"|"
+           		+ String.format("%-100s","ADRECA")+"\n";
         	while(rs.next()) {
-        		frase=frase+rs.getString("dni")+" - "+rs.getString("nom")+" - "
-        		+rs.getString("correu_electronic")+" - "+rs.getInt("telefon")+" - "
-        		+ rs.getString("adreca")+"\n";
+        		frase=frase+rs.getString("dni")+"|"+String.format("%-40s", rs.getString("nom"))+"|"
+                +String.format("%-40s", rs.getString("correu_electronic"))+"|"+rs.getInt("telefon")+"|"
+                + String.format("%-100s",rs.getString("adreca"))+"\n";
         	}
         return frase;
         

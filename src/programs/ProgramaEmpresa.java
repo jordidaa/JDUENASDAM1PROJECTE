@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import client.*;
 import funcionsGenerals.*;
+import empresa.*;
 
 public class ProgramaEmpresa {
 	
@@ -45,10 +46,14 @@ public class ProgramaEmpresa {
 									String dni=lector.nextLine();
 									if(Client.validarDNI(dni)) {
 										System.out.println(Client.llistarDadesClient(dni, con));
+										System.out.println("Prem return per tornar al menu");
+										lector.nextLine();
 									}else System.out.println("Dni no valid");
 									break;
 								case 2:
 									System.out.println(Client.llistarDadesClient(con));
+									System.out.println("Prem return per tornar al menu");
+									lector.nextLine();
 									break;
 								case 3:
 									break;
@@ -56,6 +61,39 @@ public class ProgramaEmpresa {
 						}while(opcioMenuClientInt!=3);
 						break;
 					case 2:
+						String opcioMenuProducte="";
+						int opcioMenuProducteInt=0;
+						do {
+							System.out.println(menuProducte());
+							opcioMenuProducte=lector.nextLine();
+							while(!FuncionsGenerals.validarOpcioMenu(opcioMenuProducte)) {
+								System.out.println("L'opcio no pot contindre lletres i nomes pot tenir un caracter");
+								System.out.println(menuClients());
+								opcioMenuProducte=lector.nextLine();
+							}
+							opcioMenuProducteInt=Integer.parseInt(opcioMenuProducte);
+							switch(opcioMenuProducteInt) {
+								case 1:
+									RegisteProducte rProducte=new RegisteProducte();
+									System.out.println("Codi producte(Ha de tenir 2 numeros i 2 lletres)");
+									String codiProducte=lector.nextLine();
+									while(!Empresa.validarCodiProducte(codiProducte)) {
+										System.out.println("El codi de producte ha de tenir 2 numeros i 2 lletres");
+										System.out.println("Codi producte(Ha de tenir 2 numeros i 2 lletres)");
+										codiProducte=lector.nextLine();
+									}
+									rProducte.codi=codiProducte;
+									System.out.println("Nom producte");
+									rProducte.nom=lector.nextLine();
+									break;
+								case 2:
+									break;
+								case 3:
+									break;
+								case 4:
+									break;
+							}
+						}while(opcioMenuProducteInt!=4);
 						break;
 					case 3:
 						break;
@@ -63,6 +101,7 @@ public class ProgramaEmpresa {
 						break;
 				}
 			}while(opcioMenuInt!=4);
+			lector.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -73,6 +112,10 @@ public class ProgramaEmpresa {
 	}
 	public static String menuClients() {
 		String menu="1.Visualitzar Dades 1 Client\n2.Llistar Clients\n3.Sortir";
+		return menu;
+	}
+	public static String menuProducte() {
+		String menu="1.Alta Producte\n2.Modificar Producte\n3.Baixa Producte\n4.Sortir";
 		return menu;
 	}
 }

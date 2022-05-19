@@ -71,12 +71,13 @@ ALTER TABLE public.linia_factura OWNER TO postgres;
 --
 
 CREATE TABLE public.productes (
-    codi character varying NOT NULL,
+    codi character varying(4) NOT NULL,
     nom character varying,
     stock integer,
     preu numeric,
     iva integer,
-    unitats_venudes integer
+    unitats_venudes integer,
+    actiu boolean
 );
 
 
@@ -111,7 +112,7 @@ COPY public.linia_factura (num_factura, num_linia, preu_producte, iva, quantitat
 -- Data for Name: productes; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.productes (codi, nom, stock, preu, iva, unitats_venudes) FROM stdin;
+COPY public.productes (codi, nom, stock, preu, iva, unitats_venudes, actiu) FROM stdin;
 \.
 
 
