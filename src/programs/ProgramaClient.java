@@ -3,7 +3,10 @@ package programs;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Scanner;
+
+import botiga.RegistreFactura;
 import client.*;
 import empresa.*;
 import funcionsGenerals.*;
@@ -147,7 +150,37 @@ public class ProgramaClient {
 										lector.nextLine();
 										break;
 									case 3:
+										RegistreFactura rfactura= new RegistreFactura();
+										rfactura.rClient=Client.DniArClient(dni, con);
+										rfactura.numFactura=Empresa.numeroFactura(con);
+										rfactura.dataFactura=LocalDate.now();
 										System.out.println(Empresa.llistarProductes(con));
+										System.out.println("Codi producte(per finalitzar la compra posa ER00)");
+										String codiProducte=lector.nextLine();
+										while(!Empresa.validarCodiProducte(codiProducte)) {
+											System.out.println("El codi de producte ha de tenir 2 numeros i 2 lletres");
+											System.out.println("Codi producte(Ha de tenir 2 numeros i 2 lletres)");
+											codiProducte=lector.nextLine();
+										}
+										while(!codiProducte.equals("ER00")) {
+											if(Empresa.buscarProducte(codiProducte, con)) {
+												System.out.println("Quantitat");
+												int quantitat=lector.nextInt();
+												lector.nextLine();
+												if(Empresa.afegirProducteAFactura(con, rfactura, quantitat, codiProducte)) {
+													System.out.println("Producte insertat correctament");
+												}else System.out.println("Segons la quantitat que has posat no hi ha stock");
+											}else System.out.println("El producte no existeix");
+											System.out.println(Empresa.llistarProductes(con));
+											System.out.println("Codi producte(per finalitzar la compra posa ER00)");
+											codiProducte=lector.nextLine();
+											while(!Empresa.validarCodiProducte(codiProducte)) {
+												System.out.println("El codi de producte ha de tenir 2 numeros i 2 lletres");
+												System.out.println("Codi producte(Ha de tenir 2 numeros i 2 lletres)");
+												codiProducte=lector.nextLine();
+											}
+										}
+										System.out.println(Empresa.veureFacturaPerPantalla(rfactura));
 										break;
 									case 4:
 										break;

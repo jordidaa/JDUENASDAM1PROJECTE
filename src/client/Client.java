@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Client {
+	
 	public static void afegirClient(RegisteClient client,Connection con) throws SQLException {
 		Statement stmt=con.createStatement(0,ResultSet.CONCUR_UPDATABLE);
         ResultSet rs=stmt.executeQuery("SELECT * FROM clients WHERE dni='"+client.dni+"'");
@@ -21,6 +22,7 @@ public class Client {
         	System.out.println("Client insertat correctament");
         } else System.out.println("El dni del client ja existeix");
 	}
+	
 	public static void modificarCorreu(String dni,String correu,Connection con) throws SQLException{
 		Statement stmt=con.createStatement(0,ResultSet.CONCUR_UPDATABLE);
         ResultSet rs=stmt.executeQuery("SELECT * FROM clients WHERE dni='"+dni+"'");
@@ -28,6 +30,7 @@ public class Client {
         rs.updateString("correu_electronic", correu);
         rs.updateRow();
 	}
+	
 	public static void modificarTelefon(String dni,int telefon,Connection con) throws SQLException{
 		Statement stmt=con.createStatement(0,ResultSet.CONCUR_UPDATABLE);
         ResultSet rs=stmt.executeQuery("SELECT * FROM clients WHERE dni='"+dni+"'");
@@ -35,6 +38,7 @@ public class Client {
         rs.updateInt("telefon", telefon);
         rs.updateRow();
 	}
+	
 	public static void modificarAdreca(String dni,String adreca,Connection con) throws SQLException{
 		Statement stmt=con.createStatement(0,ResultSet.CONCUR_UPDATABLE);
         ResultSet rs=stmt.executeQuery("SELECT * FROM clients WHERE dni='"+dni+"'");
@@ -42,6 +46,7 @@ public class Client {
         rs.updateString("adreca", adreca);
         rs.updateRow();
 	}
+	
 	public static String llistarDadesClient(String dni,Connection con) throws SQLException{
 		Statement stmt=con.createStatement(0,ResultSet.CONCUR_READ_ONLY);
         ResultSet rs=stmt.executeQuery("SELECT * FROM clients WHERE dni='"+dni+"'");
@@ -58,8 +63,8 @@ public class Client {
         	}
         }else frase=frase+"El dni no existeix a la base de dades";
         return frase;
-        
-	}
+    }
+	
 	public static String llistarDadesClient(Connection con) throws SQLException{
 		Statement stmt=con.createStatement(0,ResultSet.CONCUR_READ_ONLY);
         ResultSet rs=stmt.executeQuery("SELECT * FROM clients");
@@ -73,8 +78,8 @@ public class Client {
                 + String.format("%-100s",rs.getString("adreca"))+"\n";
         	}
         return frase;
-        
-	}
+    }
+	
 	public static boolean BorrarClient(String dni,String contrasenya,Connection con) throws SQLException{
 		Statement stmt=con.createStatement(0,ResultSet.CONCUR_UPDATABLE);
         ResultSet rs=stmt.executeQuery("SELECT * FROM clients WHERE dni='"+dni+"' and contrasenya='"+contrasenya+"'");
@@ -84,11 +89,26 @@ public class Client {
         	return true;
         }
 	}
+	
 	public static boolean loginClient(String dni,String contrasenya,Connection con) throws SQLException{
 		Statement stmt=con.createStatement(0,ResultSet.CONCUR_READ_ONLY);
         ResultSet rs=stmt.executeQuery("SELECT * FROM clients WHERE dni='"+dni+"' and contrasenya='"+contrasenya+"'");
         if(!rs.next()) return false;
         else return true;
+	}
+	
+	public static RegisteClient DniArClient(String dni,Connection con) throws SQLException{
+		Statement stmt=con.createStatement(0,ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs=stmt.executeQuery("SELECT * FROM clients WHERE dni='"+dni+"'");
+        RegisteClient rClient=new RegisteClient();
+        if(rs.next()) {
+        	rClient.dni=rs.getString("dni");
+        	rClient.nom=rs.getString("nom");
+        	rClient.adreca=rs.getString("adreca");
+        	rClient.correu=rs.getString("correu_electronic");
+        	rClient.telefon=rs.getInt("telefon");
+        } 
+        return rClient;
 	}
 	public static boolean validarDNI(String dni) {
 		if(dni.length()==9) {
@@ -110,6 +130,7 @@ public class Client {
 			}else return false;	
 		}else return false;				
 	}
+	
 	public static boolean validarTelefon(String telefon) {
 		if(telefon.length()==9) {
 			int num = 0;
@@ -121,6 +142,7 @@ public class Client {
 		}
 		else return false;
 	}
+	
 	public static boolean validarCorreu(String correu) {
 		String[] dadesCorreuArroba = correu.split("@");
 		if(dadesCorreuArroba.length==2) {
@@ -129,6 +151,7 @@ public class Client {
 			else return false;	
 		}else return false;
 	}
+	
 	public static boolean validarContrasenya(String contrasenya1,String contrasenya2) {
 		if(contrasenya1.equals(contrasenya2)&&contrasenya1.length()>8)return true;
 		else return false;
