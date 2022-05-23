@@ -1,5 +1,7 @@
 package empresa;
 
+import java.io.File;
+import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -108,9 +110,9 @@ public class Empresa {
         		int iva=rs.getInt("iva");
         		double calculIva=(preu*iva)/100;
         		frase=frase+rs.getString("codi")+"|"+String.format("%-40s", rs.getString("nom"))+"|"
-        			+String.format("%-14s", String.format("%.2f",preu)+"€")+"|"+String.format("%-3s",rs.getInt("iva")+"%")+"|"
-        			+String.format("%-8s",String.format("%.2f",calculIva)+"€")+"|"
-        			+String.format("%-8s",String.format("%.2f",((calculIva+rs.getDouble("preu"))))+"€")+"\n";
+        			+String.format("%-14s", String.format("%.2f",preu)+"")+"|"+String.format("%-3s",rs.getInt("iva")+"%")+"|"
+        			+String.format("%-8s",String.format("%.2f",calculIva)+"")+"|"
+        			+String.format("%-8s",String.format("%.2f",((calculIva+rs.getDouble("preu"))))+"")+"\n";
         	}    		
     	}
         return frase;
@@ -175,16 +177,93 @@ public class Empresa {
 			totalIva=totalIva+calculIva;
 			frase=frase+rfactura.liniaFactura.get(i).codi+"|"+String.format("%-40s",rfactura.liniaFactura.get(i).nom)+"|"
 					+String.format("%-9s",rfactura.liniaFactura.get(i).quantitat)+"|"
-					+String.format("%-14s", String.format("%.2f",rfactura.liniaFactura.get(i).preu)+"€")+"|"
+					+String.format("%-14s", String.format("%.2f",rfactura.liniaFactura.get(i).preu)+"")+"|"
 					+String.format("%-3s",rfactura.liniaFactura.get(i).iva+"%")+"|"
-	           		+String.format("%-8s",String.format("%.2f",calculIva)+"€")+"|"
-					+String.format("%-8s",String.format("%.2f",(calculIva+(rfactura.liniaFactura.get(i).preu*rfactura.liniaFactura.get(i).quantitat)))+"€")+"\n";
+	           		+String.format("%-8s",String.format("%.2f",calculIva)+"")+"|"
+					+String.format("%-8s",String.format("%.2f",(calculIva+(rfactura.liniaFactura.get(i).preu*rfactura.liniaFactura.get(i).quantitat)))+"")+"\n";
 		}
 		frase=frase+"-----TOTALS----- \n";
-		frase=frase+"Total sense iva: "+String.format("%.2f",totalPreu)+"€ \n";
-		frase=frase+"Total iva: "+String.format("%.2f",totalIva)+"€ \n";
-		frase=frase+"Total amb iva: "+String.format("%.2f",(totalIva+totalPreu))+"€ \n";
+		frase=frase+"Total sense iva: "+String.format("%.2f",totalPreu)+"\n";
+		frase=frase+"Total iva: "+String.format("%.2f",totalIva)+" \n";
+		frase=frase+"Total amb iva: "+String.format("%.2f",(totalIva+totalPreu))+" \n";
 		return frase;
+	}
+	public static String veureCarretDeLaCompra(RegistreFactura rfactura) {
+		String frase="";
+		frase=frase+"NUMERO DE LINIA"+"|"+"CODI"+"|"+String.format("%-40s","NOM")+"|"+"Quantitat"+"|"
+           		+"Preu Sense Iva"+"|"+"Iva"+"|"
+           		+"Cost Iva"+"|"+"Preu amb Iva"+"\n";
+		double totalPreu=0;
+		double totalIva=0;
+		for(int i=0;i<rfactura.liniaFactura.size();i++) {
+			totalPreu=totalPreu+rfactura.liniaFactura.get(i).preu*rfactura.liniaFactura.get(i).quantitat;
+			double calculIva=((rfactura.liniaFactura.get(i).preu*rfactura.liniaFactura.get(i).quantitat)*rfactura.liniaFactura.get(i).iva)/100;
+			totalIva=totalIva+calculIva;
+			frase=frase+String.format("%-15s",i+1)+"|"+rfactura.liniaFactura.get(i).codi+"|"+String.format("%-40s",rfactura.liniaFactura.get(i).nom)+"|"
+					+String.format("%-9s",rfactura.liniaFactura.get(i).quantitat)+"|"
+					+String.format("%-14s", String.format("%.2f",rfactura.liniaFactura.get(i).preu)+"")+"|"
+					+String.format("%-3s",rfactura.liniaFactura.get(i).iva+"%")+"|"
+	           		+String.format("%-8s",String.format("%.2f",calculIva)+"")+"|"
+					+String.format("%-8s",String.format("%.2f",(calculIva+(rfactura.liniaFactura.get(i).preu*rfactura.liniaFactura.get(i).quantitat)))+"ï¿½")+"\n";
+		}
+		frase=frase+"-----TOTALS----- \n";
+		frase=frase+"Total sense iva: "+String.format("%.2f",totalPreu)+"\n";
+		frase=frase+"Total iva: "+String.format("%.2f",totalIva)+"\n";
+		frase=frase+"Total amb iva: "+String.format("%.2f",(totalIva+totalPreu))+" \n";
+		return frase;
+	}
+	public static void borrarProducteCarret(RegistreFactura rfactura,int producteABorrar) {
+		rfactura.liniaFactura.remove(producteABorrar-1);
+		System.out.println("Producte eliminat de la factura");
+	}
+	public static void modificarQuantitatProducteCarret(RegistreFactura rfactura,int producteABorrar,String novaQuantitat) {
+		rfactura.liniaFactura.get(producteABorrar-1).quantitat=Integer.parseInt(novaQuantitat);
+		System.out.println("Quantitat modificada de la factura");
+	}
+	public static void guardarFacturaFitxer(RegistreFactura rfactura) {
+		File f =new File ("C:"+File.separator+"fitxers"+File.separator+"factura_"+rfactura.numFactura+".txt");
+		try {
+			PrintStream escriptor=new PrintStream(f); 
+			String frase="";
+			frase=frase+"-----DADES EMPRESA----- \n";
+			frase=frase+"Numero de factura: "+rfactura.numFactura+"\n";
+			frase=frase+"Data de factura: "+rfactura.dataFactura.getDayOfMonth()+"/"
+			+rfactura.dataFactura.getMonthValue()+"/"+rfactura.dataFactura.getYear()+"\n";
+			frase=frase+"-----DADES CLIENT----- \n";
+			frase=frase+"Dni: "+rfactura.rClient.dni+"\n";
+			frase=frase+"Nom: "+rfactura.rClient.nom+"\n";
+			frase=frase+"Telefon: "+rfactura.rClient.telefon+"\n";
+			frase=frase+"Correu Electronic: "+rfactura.rClient.correu+"\n";
+			frase=frase+"Adreca: "+rfactura.rClient.adreca+"\n";
+			frase=frase+"-----PRODUCTES----- \n";
+			frase=frase+"CODI"+"|"+String.format("%-40s","NOM")+"|"+"Quantitat"+"|"
+	           		+"Preu Sense Iva"+"|"+"Iva"+"|"
+	           		+"Cost Iva"+"|"+"Preu amb Iva"+"\n";
+			double totalPreu=0;
+			double totalIva=0;
+			for(int i=0;i<rfactura.liniaFactura.size();i++) {
+				totalPreu=totalPreu+rfactura.liniaFactura.get(i).preu*rfactura.liniaFactura.get(i).quantitat;
+				double calculIva=((rfactura.liniaFactura.get(i).preu*rfactura.liniaFactura.get(i).quantitat)*rfactura.liniaFactura.get(i).iva)/100;
+				totalIva=totalIva+calculIva;
+				frase=frase+rfactura.liniaFactura.get(i).codi+"|"+String.format("%-40s",rfactura.liniaFactura.get(i).nom)+"|"
+						+String.format("%-9s",rfactura.liniaFactura.get(i).quantitat)+"|"
+						+String.format("%-14s", String.format("%.2f",rfactura.liniaFactura.get(i).preu)+"")+"|"
+						+String.format("%-3s",rfactura.liniaFactura.get(i).iva+"%")+"|"
+		           		+String.format("%-8s",String.format("%.2f",calculIva)+"")+"|"
+						+String.format("%-8s",String.format("%.2f",(calculIva+(rfactura.liniaFactura.get(i).preu*rfactura.liniaFactura.get(i).quantitat)))+"")+"\n";
+			}
+			frase=frase+"-----TOTALS----- \n";
+			frase=frase+"Total sense iva: "+String.format("%.2f",totalPreu)+"\n";
+			frase=frase+"Total iva: "+String.format("%.2f",totalIva)+" \n";
+			frase=frase+"Total amb iva: "+String.format("%.2f",(totalIva+totalPreu))+" \n";
+			escriptor.println(frase);
+			escriptor.close();
+		}
+		catch(Exception e) {
+
+			System.out.println("error "+e);
+
+		}
 	}
 	
 }

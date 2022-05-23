@@ -171,6 +171,59 @@ public class ProgramaClient {
 													System.out.println("Producte insertat correctament");
 												}else System.out.println("Segons la quantitat que has posat no hi ha stock");
 											}else System.out.println("El producte no existeix");
+											System.out.println("Vols entrar al carret de la compra(Respon si/no)");
+											String veureCarret=lector.nextLine();
+											if(veureCarret.equals("si")) {
+												System.out.println(Empresa.veureCarretDeLaCompra(rfactura));
+												System.out.println("Quin producte vols modificar, posa el numero de linia(posa 0 per sortir)");
+												String opcioProducte=lector.nextLine();
+												int opcioProducteInt=0;
+												while(!FuncionsGenerals.validarInt(opcioProducte)) {
+													System.out.println("L'opcio no pot contindre lletres");
+													System.out.println(menuPrincipal());
+													opcioProducte=lector.nextLine();
+												}
+												opcioProducteInt=Integer.parseInt(opcioProducte);
+												while(opcioProducteInt!=0) {
+													System.out.println(menuCarret());
+													String opcioMenuCarret="";
+													int opcioMenuCarretInt=0;
+													opcioMenuCarret=lector.nextLine();
+													while(!FuncionsGenerals.validarOpcioMenu(opcioMenuCarret)) {
+														System.out.println("L'opcio no pot contindre lletres i nomes pot tenir un caracter");
+														System.out.println(menuPrincipal());
+														opcioMenuCarret=lector.nextLine();
+													}
+													opcioMenuCarretInt=Integer.parseInt(opcioMenuCarret);
+													switch(opcioMenuCarretInt) {
+														case 1:
+															System.out.println("Posa la nova quantitat");
+															String novaQuantitat=lector.nextLine();
+															while(!FuncionsGenerals.validarInt(opcioProducte)) {
+																System.out.println("L'opcio no pot contindre lletres");
+																System.out.println(menuPrincipal());
+																opcioProducte=lector.nextLine();
+															}
+															Empresa.modificarQuantitatProducteCarret(rfactura, opcioProducteInt, novaQuantitat);
+															break;
+														case 2:
+															Empresa.borrarProducteCarret(rfactura, opcioProducteInt);
+															break;
+														case 3:
+															break;
+													}
+													System.out.println(Empresa.veureCarretDeLaCompra(rfactura));
+													System.out.println("Quin producte vols modificar, posa el numero de linia(posa 0 per sortir)");
+													opcioProducte=lector.nextLine();
+													while(!FuncionsGenerals.validarInt(opcioProducte)) {
+														System.out.println("L'opcio no pot contindre lletres");
+														System.out.println(menuPrincipal());
+														opcioProducte=lector.nextLine();
+													}
+													opcioProducteInt=Integer.parseInt(opcioProducte);
+												}
+												
+											}
 											System.out.println(Empresa.llistarProductes(con));
 											System.out.println("Codi producte(per finalitzar la compra posa ER00)");
 											codiProducte=lector.nextLine();
@@ -180,7 +233,57 @@ public class ProgramaClient {
 												codiProducte=lector.nextLine();
 											}
 										}
+										System.out.println("---------------CARRET DE LA COMPRA---------------");
+										System.out.println(Empresa.veureCarretDeLaCompra(rfactura));
+										System.out.println("Quin producte vols modificar, posa el numero de linia(posa 0 per sortiri tramitar la compra)");
+										String opcioProducte=lector.nextLine();
+										int opcioProducteInt=0;
+										while(!FuncionsGenerals.validarInt(opcioProducte)) {
+											System.out.println("L'opcio no pot contindre lletres");
+											System.out.println(menuPrincipal());
+											opcioProducte=lector.nextLine();
+										}
+										opcioProducteInt=Integer.parseInt(opcioProducte);
+										while(opcioProducteInt!=0) {
+											System.out.println(menuCarret());
+											String opcioMenuCarret="";
+											int opcioMenuCarretInt=0;
+											opcioMenuCarret=lector.nextLine();
+											while(!FuncionsGenerals.validarOpcioMenu(opcioMenuCarret)) {
+												System.out.println("L'opcio no pot contindre lletres i nomes pot tenir un caracter");
+												System.out.println(menuPrincipal());
+												opcioMenuCarret=lector.nextLine();
+											}
+											opcioMenuCarretInt=Integer.parseInt(opcioMenuCarret);
+											switch(opcioMenuCarretInt) {
+												case 1:
+													System.out.println("Posa la nova quantitat");
+													String novaQuantitat=lector.nextLine();
+													while(!FuncionsGenerals.validarInt(opcioProducte)) {
+														System.out.println("L'opcio no pot contindre lletres");
+														System.out.println(menuPrincipal());
+														opcioProducte=lector.nextLine();
+													}
+													Empresa.modificarQuantitatProducteCarret(rfactura, opcioProducteInt, novaQuantitat);
+													break;
+												case 2:
+													Empresa.borrarProducteCarret(rfactura, opcioProducteInt);
+													break;
+												case 3:
+													break;
+											}
+											System.out.println(Empresa.veureCarretDeLaCompra(rfactura));
+											System.out.println("Quin producte vols modificar, posa el numero de linia(posa 0 per sortir)");
+											opcioProducte=lector.nextLine();
+											while(!FuncionsGenerals.validarInt(opcioProducte)) {
+												System.out.println("L'opcio no pot contindre lletres");
+												System.out.println(menuPrincipal());
+												opcioProducte=lector.nextLine();
+											}
+											opcioProducteInt=Integer.parseInt(opcioProducte);
+										}
 										System.out.println(Empresa.veureFacturaPerPantalla(rfactura));
+										Empresa.guardarFacturaFitxer(rfactura);
 										break;
 									case 4:
 										break;
@@ -211,5 +314,10 @@ public class ProgramaClient {
 		String menu="1.Modificar correu\n2.Modificar telefon\n3.Modificar adreca\n4.Sortir";
 		return menu;
 	}
+	public static String menuCarret() {
+		String menu="1.Modificar quantitat\n2.Esborrar producte del carret\n3.Sortir";
+		return menu;
+	}
+
 
 }
