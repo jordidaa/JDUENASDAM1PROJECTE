@@ -84,7 +84,6 @@ public class ProgramaClient {
 							do {
 								System.out.println(menuLogin());
 								opcioMenuLogin=lector.nextLine();
-								lector.nextLine();
 								while(!FuncionsGenerals.validarOpcioMenu(opcioMenuLogin)) {
 									System.out.println("L'opcio no pot contindre lletres i nomes pot tenir un caracter");
 									System.out.println(menuLogin());
@@ -235,7 +234,7 @@ public class ProgramaClient {
 										}
 										System.out.println("---------------CARRET DE LA COMPRA---------------");
 										System.out.println(Empresa.veureCarretDeLaCompra(rfactura));
-										System.out.println("Quin producte vols modificar, posa el numero de linia(posa 0 per sortiri tramitar la compra)");
+										System.out.println("Quin producte vols modificar, posa el numero de linia(posa 0 per sortir i tramitar la compra)");
 										String opcioProducte=lector.nextLine();
 										int opcioProducteInt=0;
 										while(!FuncionsGenerals.validarInt(opcioProducte)) {
@@ -284,6 +283,7 @@ public class ProgramaClient {
 										}
 										System.out.println(Empresa.veureFacturaPerPantalla(rfactura));
 										Empresa.guardarFacturaFitxer(rfactura);
+										Empresa.afegirFactura(con,rfactura);
 										break;
 									case 4:
 										break;
