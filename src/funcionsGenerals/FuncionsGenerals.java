@@ -1,5 +1,7 @@
 package funcionsGenerals;
 
+import java.time.LocalDate;
+
 public class FuncionsGenerals {
 	public static boolean validarOpcioMenu(String opcioMenu) {
 		if(opcioMenu.length()==1) {
@@ -42,5 +44,17 @@ public class FuncionsGenerals {
 				return true;
 			}else return false;
 		}else return false;
-}
+	}
+	public static LocalDate pasarAData(String data) {
+		String[] dadesData = data.split("/");
+		int dia = Integer.parseInt(dadesData[0]);
+		int mes = Integer.parseInt(dadesData[1]);
+		int any = Integer.parseInt(dadesData[2]);
+		return LocalDate.of(any, mes, dia);
+	}
+	public static boolean validarData(String data) {
+		String[] dadesData = data.split("/");
+		if(dadesData.length==3) return true;
+		else return false;
+	}
 }

@@ -3,6 +3,7 @@ package programs;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 import client.*;
@@ -48,9 +49,11 @@ public class ProgramaEmpresa {
 										System.out.println(Client.llistarDadesClient(dni, con));
 										System.out.println("Prem return per tornar al menu");
 										lector.nextLine();
-									}else System.out.println("Dni no valid");
-									System.out.println("Prem return per tornar al menu");
-									lector.nextLine();
+									}else{
+										System.out.println("Dni no valid");
+										System.out.println("Prem return per tornar al menu");
+										lector.nextLine();
+									}
 									break;
 								case 2:
 									System.out.println(Client.llistarDadesClient(con));
@@ -267,6 +270,23 @@ public class ProgramaEmpresa {
 									System.out.println(Empresa.llistarDFacturesClient(dni, con));
 									break;
 								case 3:
+									System.out.println("Data 1");
+									String data1String=lector.nextLine();
+									while(!FuncionsGenerals.validarData(data1String)) {
+										System.out.println("Data incorrecte torna-la a posar");
+										System.out.println("Data 1");
+										data1String=lector.nextLine();
+									}
+									LocalDate data1=FuncionsGenerals.pasarAData(data1String);
+									System.out.println("Data 2");
+									String data2String=lector.nextLine();
+									while(!FuncionsGenerals.validarData(data1String)) {
+										System.out.println("Data incorrecte torna-la a posar");
+										System.out.println("Data 1");
+										data2String=lector.nextLine();
+									}
+									LocalDate data2=FuncionsGenerals.pasarAData(data2String);
+									System.out.println(Empresa.llistarDadesFactura(data1, data2, con));
 									break;
 								case 4:
 									System.out.println("Codi producte(Ha de tenir 2 numeros i 2 lletres)");
@@ -284,7 +304,7 @@ public class ProgramaEmpresa {
 								case 6:
 									break;
 							}
-						}while(opcioMenuFacturacioInt!=8);
+						}while(opcioMenuFacturacioInt!=6);
 						break;
 					case 4:
 						break;
@@ -312,9 +332,9 @@ public class ProgramaEmpresa {
 		return menu;
 	}
 	public static String menuFacturacio() {
-		String menu="1.Veure una Factura\n2.Veure totes les Factures d’un Client\n"
-				+ "\n3.Veure totes les Factures entre dues dates\n4.Estadística d’un producte"
-				+ "\n4.Estadística d’un producte\n5.Estadística de tots els productes venuts\n6.Sortir";
+		String menu="1.Veure una Factura\n2.Veure totes les Factures d un Client"
+				+ "\n3.Veure totes les Factures entre dues dates\n4.Estadastica d un producte"
+				+ "\n5.Estadastica de tots els productes venuts\n6.Sortir";
 		return menu;
 	}
 }

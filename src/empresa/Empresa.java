@@ -7,6 +7,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 
 import botiga.RegistreFactura;
 import botiga.RegistreLiniaFactura;
@@ -78,7 +79,7 @@ public class Empresa {
 		Statement stmt=con.createStatement(0,ResultSet.CONCUR_UPDATABLE);
         ResultSet rs=stmt.executeQuery("SELECT * FROM productes WHERE codi='"+codiProducte+"'");
         rs.first();
-        int stockActual= rs.getInt("stock");
+        int stockActual=rs.getInt("stock");
         rs.updateRow();
         return stockActual; 
 	}
@@ -111,16 +112,16 @@ public class Empresa {
         String frase="\n";
         frase=frase+"CODI"+"|"+String.format("%-40s","NOM")+"|"
                		+"Preu Sense Iva"+"|"+"Iva"+"|"
-               		+"Cost Iva"+"|"+"Preu amb Iva"+"\n";
+               		+String.format("%-14s","Cost Iva")+"|"+"Preu amb Iva"+"\n";
         while(rs.next()) {        	
         	if(rs.getInt("stock")!=0) {
         		double preu=rs.getDouble("preu");
         		int iva=rs.getInt("iva");
         		double calculIva=(preu*iva)/100;
         		frase=frase+rs.getString("codi")+"|"+String.format("%-40s", rs.getString("nom"))+"|"
-        			+String.format("%-14s", String.format("%.2f",preu)+"�")+"|"+String.format("%-3s",rs.getInt("iva")+"%")+"|"
-        			+String.format("%-8s",String.format("%.2f",calculIva)+"�")+"|"
-        			+String.format("%-8s",String.format("%.2f",((calculIva+rs.getDouble("preu"))))+"�")+"\n";
+        			+String.format("%-14s", String.format("%.2f",preu)+" Euros")+"|"+String.format("%-3s",rs.getInt("iva")+"%")+"|"
+        			+String.format("%-14s",String.format("%.2f",calculIva)+" Euros")+"|"
+        			+String.format("%-8s",String.format("%.2f",((calculIva+rs.getDouble("preu"))))+" Euros")+"\n";
         	}    		
     	}
         return frase;
@@ -147,7 +148,7 @@ public class Empresa {
         return rProducte;
 	}
 	public static boolean afegirProducteAFactura(Connection con,RegistreFactura rfactura,int quantitat,String codiProducte) throws SQLException {
-		if((buscarStock(codiProducte, con)-quantitat)>0) {
+		if((buscarStock(codiProducte, con)-quantitat)>=0) {
 			RegistreLiniaFactura rLiniaFactura=new RegistreLiniaFactura();
 			RegisteProducte rProducte=dadesProducte(con,codiProducte);
 			rLiniaFactura.codi=rProducte.codi;
@@ -176,7 +177,7 @@ public class Empresa {
 		frase=frase+"-----PRODUCTES----- \n";
 		frase=frase+"CODI"+"|"+String.format("%-40s","NOM")+"|"+"Quantitat"+"|"
            		+"Preu Sense Iva"+"|"+"Iva"+"|"
-           		+"Cost Iva"+"|"+"Preu amb Iva"+"\n";
+           		+String.format("%-14s","Cost Iva")+"|"+"Preu amb Iva"+"\n";
 		double totalPreu=0;
 		double totalIva=0;
 		for(int i=0;i<rfactura.liniaFactura.size();i++) {
@@ -185,22 +186,22 @@ public class Empresa {
 			totalIva=totalIva+calculIva;
 			frase=frase+rfactura.liniaFactura.get(i).codi+"|"+String.format("%-40s",rfactura.liniaFactura.get(i).nom)+"|"
 					+String.format("%-9s",rfactura.liniaFactura.get(i).quantitat)+"|"
-					+String.format("%-14s", String.format("%.2f",rfactura.liniaFactura.get(i).preu)+"�")+"|"
+					+String.format("%-14s", String.format("%.2f",rfactura.liniaFactura.get(i).preu)+" Euros")+"|"
 					+String.format("%-3s",rfactura.liniaFactura.get(i).iva+"%")+"|"
-	           		+String.format("%-8s",String.format("%.2f",calculIva)+"�")+"|"
-					+String.format("%-8s",String.format("%.2f",(calculIva+(rfactura.liniaFactura.get(i).preu*rfactura.liniaFactura.get(i).quantitat)))+"�")+"\n";
+	           		+String.format("%-8s",String.format("%.2f",calculIva)+" Euros")+"|"
+					+String.format("%-8s",String.format("%.2f",(calculIva+(rfactura.liniaFactura.get(i).preu*rfactura.liniaFactura.get(i).quantitat)))+" Euros")+"\n";
 		}
 		frase=frase+"-----TOTALS----- \n";
-		frase=frase+"Total sense iva: "+String.format("%.2f",totalPreu)+"� \n";
-		frase=frase+"Total iva: "+String.format("%.2f",totalIva)+"� \n";
-		frase=frase+"Total amb iva: "+String.format("%.2f",(totalIva+totalPreu))+"� \n";
+		frase=frase+"Total sense iva: "+String.format("%.2f",totalPreu)+" Euros \n";
+		frase=frase+"Total iva: "+String.format("%.2f",totalIva)+" Euros \n";
+		frase=frase+"Total amb iva: "+String.format("%.2f",(totalIva+totalPreu))+" Euros \n";
 		return frase;
 	}
 	public static String veureCarretDeLaCompra(RegistreFactura rfactura) {
 		String frase="";
 		frase=frase+"NUMERO DE LINIA"+"|"+"CODI"+"|"+String.format("%-40s","NOM")+"|"+"Quantitat"+"|"
            		+"Preu Sense Iva"+"|"+"Iva"+"|"
-           		+"Cost Iva"+"|"+"Preu amb Iva"+"\n";
+           		+String.format("%-14s","Cost Iva")+"|"+"Preu amb Iva"+"\n";
 		double totalPreu=0;
 		double totalIva=0;
 		for(int i=0;i<rfactura.liniaFactura.size();i++) {
@@ -209,15 +210,15 @@ public class Empresa {
 			totalIva=totalIva+calculIva;
 			frase=frase+String.format("%-15s",i+1)+"|"+rfactura.liniaFactura.get(i).codi+"|"+String.format("%-40s",rfactura.liniaFactura.get(i).nom)+"|"
 					+String.format("%-9s",rfactura.liniaFactura.get(i).quantitat)+"|"
-					+String.format("%-14s", String.format("%.2f",rfactura.liniaFactura.get(i).preu)+"�")+"|"
+					+String.format("%-14s", String.format("%.2f",rfactura.liniaFactura.get(i).preu)+" Euros")+"|"
 					+String.format("%-3s",rfactura.liniaFactura.get(i).iva+"%")+"|"
-	           		+String.format("%-8s",String.format("%.2f",calculIva)+"�")+"|"
-					+String.format("%-8s",String.format("%.2f",(calculIva+(rfactura.liniaFactura.get(i).preu*rfactura.liniaFactura.get(i).quantitat)))+"�")+"\n";
+	           		+String.format("%-8s",String.format("%.2f",calculIva)+" Euros")+"|"
+					+String.format("%-8s",String.format("%.2f",(calculIva+(rfactura.liniaFactura.get(i).preu*rfactura.liniaFactura.get(i).quantitat)))+" Euros")+"\n";
 		}
 		frase=frase+"-----TOTALS----- \n";
-		frase=frase+"Total sense iva: "+String.format("%.2f",totalPreu)+"� \n";
-		frase=frase+"Total iva: "+String.format("%.2f",totalIva)+"� \n";
-		frase=frase+"Total amb iva: "+String.format("%.2f",(totalIva+totalPreu))+"� \n";
+		frase=frase+"Total sense iva: "+String.format("%.2f",totalPreu)+" Euros \n";
+		frase=frase+"Total iva: "+String.format("%.2f",totalIva)+" Euros \n";
+		frase=frase+"Total amb iva: "+String.format("%.2f",(totalIva+totalPreu))+" Euros \n";
 		return frase;
 	}
 	public static void borrarProducteCarret(RegistreFactura rfactura,int producteABorrar) {
@@ -246,7 +247,7 @@ public class Empresa {
 			frase=frase+"-----PRODUCTES----- \n";
 			frase=frase+"CODI"+"|"+String.format("%-40s","NOM")+"|"+"Quantitat"+"|"
 	           		+"Preu Sense Iva"+"|"+"Iva"+"|"
-	           		+"Cost Iva"+"|"+"Preu amb Iva"+"\n";
+	           		+String.format("%-14s","Cost Iva")+"|"+"Preu amb Iva"+"\n";
 			double totalPreu=0;
 			double totalIva=0;
 			for(int i=0;i<rfactura.liniaFactura.size();i++) {
@@ -255,15 +256,15 @@ public class Empresa {
 				totalIva=totalIva+calculIva;
 				frase=frase+rfactura.liniaFactura.get(i).codi+"|"+String.format("%-40s",rfactura.liniaFactura.get(i).nom)+"|"
 						+String.format("%-9s",rfactura.liniaFactura.get(i).quantitat)+"|"
-						+String.format("%-14s", String.format("%.2f",rfactura.liniaFactura.get(i).preu)+"�")+"|"
+						+String.format("%-14s", String.format("%.2f",rfactura.liniaFactura.get(i).preu)+" Euros")+"|"
 						+String.format("%-3s",rfactura.liniaFactura.get(i).iva+"%")+"|"
-		           		+String.format("%-8s",String.format("%.2f",calculIva)+"�")+"|"
-						+String.format("%-8s",String.format("%.2f",(calculIva+(rfactura.liniaFactura.get(i).preu*rfactura.liniaFactura.get(i).quantitat)))+"�")+"\n";
+		           		+String.format("%-8s",String.format("%.2f",calculIva)+" Euros")+"|"
+						+String.format("%-8s",String.format("%.2f",(calculIva+(rfactura.liniaFactura.get(i).preu*rfactura.liniaFactura.get(i).quantitat)))+" Euros")+"\n";
 			}
 			frase=frase+"-----TOTALS----- \n";
-			frase=frase+"Total sense iva: "+String.format("%.2f",totalPreu)+"� \n";
-			frase=frase+"Total iva: "+String.format("%.2f",totalIva)+"� \n";
-			frase=frase+"Total amb iva: "+String.format("%.2f",(totalIva+totalPreu))+"� \n";
+			frase=frase+"Total sense iva: "+String.format("%.2f",totalPreu)+" Euros \n";
+			frase=frase+"Total iva: "+String.format("%.2f",totalIva)+" Euros \n";
+			frase=frase+"Total amb iva: "+String.format("%.2f",(totalIva+totalPreu))+" Euros \n";
 			escriptor.println(frase);
 			escriptor.close();
 		}
@@ -306,6 +307,16 @@ public class Empresa {
         	afegirUnitatsVenudes(rfactura.liniaFactura.get(i).quantitat,rfactura.liniaFactura.get(i).codi,con);
         	rs.insertRow();
         }
+	}
+	public static String llistarDadesFactura(LocalDate data1,LocalDate data2,Connection con) throws SQLException {
+		Statement stmt=con.createStatement(0,ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs=stmt.executeQuery("SELECT * FROM factura WHERE data_factura BETWEEN'"+data1+"' AND '"+data2+"'");
+        String frase="";
+        while(rs.next()) {
+        	frase=frase+llistarDadesFactura(rs.getInt("num_factura"),con);
+        	frase=frase+"-------------------------------------------------------\n";
+        }
+        return frase;
 	}
 	public static String llistarDadesFactura(int factura,Connection con) throws SQLException {
 		Statement stmt=con.createStatement(0,ResultSet.CONCUR_READ_ONLY);
@@ -373,7 +384,7 @@ public class Empresa {
         frase=frase+"-----PRODUCTES----- \n";
 		frase=frase+"CODI"+"|"+String.format("%-40s","NOM")+"|"+"Quantitat"+"|"
            		+"Preu Sense Iva"+"|"+"Iva"+"|"
-           		+"Cost Iva"+"|"+"Preu amb Iva"+"\n";
+           		+String.format("%-14s","Cost Iva")+"|"+"Preu amb Iva"+"\n";
 		double totalPreu=0;
 		double totalIva=0;
 		while(rs.next()) {
@@ -382,15 +393,15 @@ public class Empresa {
 			totalIva=totalIva+calculIva;
 			frase=frase+rs.getString("codi_producte")+"|"+String.format("%-40s",rs.getString("nom_producte"))+"|"
 					+String.format("%-9s",rs.getInt("quantitat"))+"|"
-					+String.format("%-14s", String.format("%.2f",rs.getDouble("preu_producte"))+"�")+"|"
+					+String.format("%-14s", String.format("%.2f",rs.getDouble("preu_producte"))+" Euros")+"|"
 					+String.format("%-3s",rs.getInt("iva")+"%")+"|"
-	           		+String.format("%-8s",String.format("%.2f",calculIva)+"�")+"|"
-					+String.format("%-8s",String.format("%.2f",(calculIva+(rs.getDouble("preu_producte")*rs.getInt("quantitat"))))+"�")+"\n";
+	           		+String.format("%-14s",String.format("%.2f",calculIva)+" Euros")+"|"
+					+String.format("%-8s",String.format("%.2f",(calculIva+(rs.getDouble("preu_producte")*rs.getInt("quantitat"))))+" Euros")+"\n";
 		}
 		frase=frase+"-----TOTALS----- \n";
-		frase=frase+"Total sense iva: "+String.format("%.2f",totalPreu)+"� \n";
-		frase=frase+"Total iva: "+String.format("%.2f",totalIva)+"� \n";
-		frase=frase+"Total amb iva: "+String.format("%.2f",(totalIva+totalPreu))+"� \n";
+		frase=frase+"Total sense iva: "+String.format("%.2f",totalPreu)+" Euros \n";
+		frase=frase+"Total iva: "+String.format("%.2f",totalIva)+" Euros \n";
+		frase=frase+"Total amb iva: "+String.format("%.2f",(totalIva+totalPreu))+" Euros \n";
         return frase;
 	}
 	public static String estadisticasProductes(Connection con) throws SQLException{
@@ -398,22 +409,22 @@ public class Empresa {
         ResultSet rs=stmt.executeQuery("SELECT * FROM productes");
         String frase="";
         frase=frase+"CODI"+"|"+String.format("%-40s","NOM")+"|"+"STOCK"+"|"
-        +"UNITATS VENUDES";
+        +"UNITATS VENUDES\n";
         while(rs.next()) {
-        	frase=frase+rs.getString("codi_producte")+"|"+String.format("%-40s",rs.getString("nom_producte"))+"|"
-        	+String.format("%-5s",rs.getInt("stock"))+"|"+String.format("%-15s",rs.getInt("unitats_venudes"));
+        	frase=frase+rs.getString("codi")+"|"+String.format("%-40s",rs.getString("nom"))+"|"
+        	+String.format("%-5s",rs.getInt("stock"))+"|"+String.format("%-15s",rs.getInt("unitats_venudes"))+"\n";
         }
         return frase;
 	}
 	public static String estadisticasProductes(String codiProducte,Connection con) throws SQLException{
 		Statement stmt=con.createStatement(0,ResultSet.CONCUR_READ_ONLY);
-        ResultSet rs=stmt.executeQuery("SELECT * FROM productes WHERE codi_producte='"+codiProducte+"'");
+        ResultSet rs=stmt.executeQuery("SELECT * FROM productes WHERE codi='"+codiProducte+"'");
         String frase="";
         while(rs.next()) {
         	frase=frase+"CODI"+"|"+String.format("%-40s","NOM")+"|"+"STOCK"+"|"
-        	+"UNITATS VENUDES";
-        	frase=frase+rs.getString("codi_producte")+"|"+String.format("%-40s",rs.getString("nom_producte"))+"|"
-        	+String.format("%-5s",rs.getInt("stock"))+"|"+String.format("%-15s",rs.getInt("unitats_venudes"));
+        	+"UNITATS VENUDES\n";
+        	frase=frase+rs.getString("codi")+"|"+String.format("%-40s",rs.getString("nom"))+"|"
+        	+String.format("%-5s",rs.getInt("stock"))+"|"+String.format("%-15s",rs.getInt("unitats_venudes"))+"\n";
         }
         return frase;
 	}

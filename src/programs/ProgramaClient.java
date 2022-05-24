@@ -40,7 +40,7 @@ public class ProgramaClient {
 							dni=lector.nextLine();
 						}
 						rClient.dni=dni;
-						System.out.println("Contrasenya (Minim 8 caracters)");
+						System.out.println("Contrasenya (Minim 9 caracters)");
 						String contrasenya=lector.nextLine();
 						System.out.println("Repeteix la Contrasenya");
 						String contrasenyaRp=lector.nextLine();
@@ -97,7 +97,6 @@ public class ProgramaClient {
 										do {
 											System.out.println(menuModificar());
 											opcioMenuModificar=lector.nextLine();
-											lector.nextLine();
 											while(!FuncionsGenerals.validarOpcioMenu(opcioMenuModificar)) {
 												System.out.println("L'opcio no pot contindre lletres i nomes pot tenir un caracter");
 												System.out.println(menuModificar());
@@ -318,6 +317,4 @@ public class ProgramaClient {
 		String menu="1.Modificar quantitat\n2.Esborrar producte del carret\n3.Sortir";
 		return menu;
 	}
-
-
 }

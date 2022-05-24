@@ -91,7 +91,8 @@ ALTER TABLE public.productes OWNER TO postgres;
 --
 
 COPY public.clients (dni, contrasenya, nom, correu_electronic, telefon, adreca) FROM stdin;
-41582948Y	Jordi1234	Jordi Dueñas	Jordidaa@gmail.com	610020865	Penya Bisbalenca 19
+49582915L	Pepe12345	Pepe	pepe@gmail.com	976363938	Carrer jaume 2n girona
+41582948Y	Jordi1234	Jordi Dueñas	jordi@gmail.com	610020865	Penya Bisbalenca 19
 \.
 
 
@@ -100,6 +101,9 @@ COPY public.clients (dni, contrasenya, nom, correu_electronic, telefon, adreca) 
 --
 
 COPY public.factura (num_factura, data_factura, dni, nom, correu_electronic, telefon, adreca) FROM stdin;
+1	2022-05-24	41582948Y	Jordi Dueñas	Jordidaa@gmail.com	610020865	Penya Bisbalenca 19
+2	2022-05-24	41582948Y	Jordi Dueñas	Jordidaa@gmail.com	610020865	Penya Bisbalenca 19
+3	2022-05-24	41582948Y	Jordi Dueñas	jordi@gmail.com	610020865	Penya Bisbalenca 19
 \.
 
 
@@ -108,6 +112,10 @@ COPY public.factura (num_factura, data_factura, dni, nom, correu_electronic, tel
 --
 
 COPY public.linia_factura (num_factura, num_linia, preu_producte, iva, quantitat, nom_producte, codi_producte) FROM stdin;
+1	1	2	21	5	Red bull	RB01
+1	2	0.5	21	6	Cocacola	CO01
+2	1	2	21	1	Red bull	RB01
+3	1	1.95	20	1	Red bull	RB01
 \.
 
 
@@ -116,7 +124,11 @@ COPY public.linia_factura (num_factura, num_linia, preu_producte, iva, quantitat
 --
 
 COPY public.productes (codi, nom, stock, preu, iva, unitats_venudes) FROM stdin;
-CO01	Cocacola	200	0.5	21	0
+01FA	Fanta de llimona	4	0.6	21	0
+02FA	Fanta de tronja	9	0.6	21	0
+AG01	Aigua font vella	7	0.4	6	0
+CO01	Cocacola	189	0.5	21	21
+RB01	Red bull	5	1.95	20	7
 \.
 
 
