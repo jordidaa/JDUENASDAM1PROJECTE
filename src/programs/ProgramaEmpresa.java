@@ -235,6 +235,56 @@ public class ProgramaEmpresa {
 						}while(opcioMenuProducteInt!=4);
 						break;
 					case 3:
+						String opcioMenuFacturacio="";
+						int opcioMenuFacturacioInt=0;
+						do {
+							System.out.println(menuFacturacio());
+							opcioMenuFacturacio=lector.nextLine();
+							while(!FuncionsGenerals.validarOpcioMenu(opcioMenu)) {
+								System.out.println("L'opcio no pot contindre lletres i nomes pot tenir un caracter");
+								System.out.println(menuFacturacio());
+								opcioMenuFacturacio=lector.nextLine();
+							}
+							opcioMenuFacturacioInt=Integer.parseInt(opcioMenuFacturacio);
+							switch(opcioMenuFacturacioInt) {
+								case 1:
+									System.out.println("Codi factura");
+									String codiFactura=lector.nextLine();
+									while(!FuncionsGenerals.validarInt(codiFactura)) {
+										System.out.println("Codi factura conte lletres");
+										System.out.println("Codi factura");
+										codiFactura=lector.nextLine();
+									}
+									System.out.println(Empresa.llistarDadesFactura(Integer.parseInt(codiFactura), con));
+									break;
+								case 2:
+									System.out.println("DNI");
+									String dni=lector.nextLine();
+									while(!Client.validarDNI(dni)) {
+										System.out.println("DNI incorecte torna l a posar");
+										dni=lector.nextLine();
+									}
+									System.out.println(Empresa.llistarDFacturesClient(dni, con));
+									break;
+								case 3:
+									break;
+								case 4:
+									System.out.println("Codi producte(Ha de tenir 2 numeros i 2 lletres)");
+									String codiProducte=lector.nextLine();
+									while(!Empresa.validarCodiProducte(codiProducte)) {
+										System.out.println("El codi de producte ha de tenir 2 numeros i 2 lletres");
+										System.out.println("Codi producte(Ha de tenir 2 numeros i 2 lletres)");
+										codiProducte=lector.nextLine();
+									}
+									System.out.println(Empresa.estadisticasProductes(codiProducte,con));
+									break;
+								case 5:
+									System.out.println(Empresa.estadisticasProductes(con));
+									break;
+								case 6:
+									break;
+							}
+						}while(opcioMenuFacturacioInt!=8);
 						break;
 					case 4:
 						break;
@@ -259,6 +309,12 @@ public class ProgramaEmpresa {
 	}
 	public static String menuModificarProducte() {
 		String menu="1.Modificar Stock\n2.Modificar preu\n3.Modificar iva\n4.Sortir";
+		return menu;
+	}
+	public static String menuFacturacio() {
+		String menu="1.Veure una Factura\n2.Veure totes les Factures d’un Client\n"
+				+ "\n3.Veure totes les Factures entre dues dates\n4.Estadística d’un producte"
+				+ "\n4.Estadística d’un producte\n5.Estadística de tots els productes venuts\n6.Sortir";
 		return menu;
 	}
 }

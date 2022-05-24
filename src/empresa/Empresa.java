@@ -118,9 +118,9 @@ public class Empresa {
         		int iva=rs.getInt("iva");
         		double calculIva=(preu*iva)/100;
         		frase=frase+rs.getString("codi")+"|"+String.format("%-40s", rs.getString("nom"))+"|"
-        			+String.format("%-14s", String.format("%.2f",preu)+"€")+"|"+String.format("%-3s",rs.getInt("iva")+"%")+"|"
-        			+String.format("%-8s",String.format("%.2f",calculIva)+"€")+"|"
-        			+String.format("%-8s",String.format("%.2f",((calculIva+rs.getDouble("preu"))))+"€")+"\n";
+        			+String.format("%-14s", String.format("%.2f",preu)+"ï¿½")+"|"+String.format("%-3s",rs.getInt("iva")+"%")+"|"
+        			+String.format("%-8s",String.format("%.2f",calculIva)+"ï¿½")+"|"
+        			+String.format("%-8s",String.format("%.2f",((calculIva+rs.getDouble("preu"))))+"ï¿½")+"\n";
         	}    		
     	}
         return frase;
@@ -185,15 +185,15 @@ public class Empresa {
 			totalIva=totalIva+calculIva;
 			frase=frase+rfactura.liniaFactura.get(i).codi+"|"+String.format("%-40s",rfactura.liniaFactura.get(i).nom)+"|"
 					+String.format("%-9s",rfactura.liniaFactura.get(i).quantitat)+"|"
-					+String.format("%-14s", String.format("%.2f",rfactura.liniaFactura.get(i).preu)+"€")+"|"
+					+String.format("%-14s", String.format("%.2f",rfactura.liniaFactura.get(i).preu)+"ï¿½")+"|"
 					+String.format("%-3s",rfactura.liniaFactura.get(i).iva+"%")+"|"
-	           		+String.format("%-8s",String.format("%.2f",calculIva)+"€")+"|"
-					+String.format("%-8s",String.format("%.2f",(calculIva+(rfactura.liniaFactura.get(i).preu*rfactura.liniaFactura.get(i).quantitat)))+"€")+"\n";
+	           		+String.format("%-8s",String.format("%.2f",calculIva)+"ï¿½")+"|"
+					+String.format("%-8s",String.format("%.2f",(calculIva+(rfactura.liniaFactura.get(i).preu*rfactura.liniaFactura.get(i).quantitat)))+"ï¿½")+"\n";
 		}
 		frase=frase+"-----TOTALS----- \n";
-		frase=frase+"Total sense iva: "+String.format("%.2f",totalPreu)+"€ \n";
-		frase=frase+"Total iva: "+String.format("%.2f",totalIva)+"€ \n";
-		frase=frase+"Total amb iva: "+String.format("%.2f",(totalIva+totalPreu))+"€ \n";
+		frase=frase+"Total sense iva: "+String.format("%.2f",totalPreu)+"ï¿½ \n";
+		frase=frase+"Total iva: "+String.format("%.2f",totalIva)+"ï¿½ \n";
+		frase=frase+"Total amb iva: "+String.format("%.2f",(totalIva+totalPreu))+"ï¿½ \n";
 		return frase;
 	}
 	public static String veureCarretDeLaCompra(RegistreFactura rfactura) {
@@ -209,15 +209,15 @@ public class Empresa {
 			totalIva=totalIva+calculIva;
 			frase=frase+String.format("%-15s",i+1)+"|"+rfactura.liniaFactura.get(i).codi+"|"+String.format("%-40s",rfactura.liniaFactura.get(i).nom)+"|"
 					+String.format("%-9s",rfactura.liniaFactura.get(i).quantitat)+"|"
-					+String.format("%-14s", String.format("%.2f",rfactura.liniaFactura.get(i).preu)+"€")+"|"
+					+String.format("%-14s", String.format("%.2f",rfactura.liniaFactura.get(i).preu)+"ï¿½")+"|"
 					+String.format("%-3s",rfactura.liniaFactura.get(i).iva+"%")+"|"
-	           		+String.format("%-8s",String.format("%.2f",calculIva)+"€")+"|"
-					+String.format("%-8s",String.format("%.2f",(calculIva+(rfactura.liniaFactura.get(i).preu*rfactura.liniaFactura.get(i).quantitat)))+"€")+"\n";
+	           		+String.format("%-8s",String.format("%.2f",calculIva)+"ï¿½")+"|"
+					+String.format("%-8s",String.format("%.2f",(calculIva+(rfactura.liniaFactura.get(i).preu*rfactura.liniaFactura.get(i).quantitat)))+"ï¿½")+"\n";
 		}
 		frase=frase+"-----TOTALS----- \n";
-		frase=frase+"Total sense iva: "+String.format("%.2f",totalPreu)+"€ \n";
-		frase=frase+"Total iva: "+String.format("%.2f",totalIva)+"€ \n";
-		frase=frase+"Total amb iva: "+String.format("%.2f",(totalIva+totalPreu))+"€ \n";
+		frase=frase+"Total sense iva: "+String.format("%.2f",totalPreu)+"ï¿½ \n";
+		frase=frase+"Total iva: "+String.format("%.2f",totalIva)+"ï¿½ \n";
+		frase=frase+"Total amb iva: "+String.format("%.2f",(totalIva+totalPreu))+"ï¿½ \n";
 		return frase;
 	}
 	public static void borrarProducteCarret(RegistreFactura rfactura,int producteABorrar) {
@@ -255,15 +255,15 @@ public class Empresa {
 				totalIva=totalIva+calculIva;
 				frase=frase+rfactura.liniaFactura.get(i).codi+"|"+String.format("%-40s",rfactura.liniaFactura.get(i).nom)+"|"
 						+String.format("%-9s",rfactura.liniaFactura.get(i).quantitat)+"|"
-						+String.format("%-14s", String.format("%.2f",rfactura.liniaFactura.get(i).preu)+"€")+"|"
+						+String.format("%-14s", String.format("%.2f",rfactura.liniaFactura.get(i).preu)+"ï¿½")+"|"
 						+String.format("%-3s",rfactura.liniaFactura.get(i).iva+"%")+"|"
-		           		+String.format("%-8s",String.format("%.2f",calculIva)+"€")+"|"
-						+String.format("%-8s",String.format("%.2f",(calculIva+(rfactura.liniaFactura.get(i).preu*rfactura.liniaFactura.get(i).quantitat)))+"€")+"\n";
+		           		+String.format("%-8s",String.format("%.2f",calculIva)+"ï¿½")+"|"
+						+String.format("%-8s",String.format("%.2f",(calculIva+(rfactura.liniaFactura.get(i).preu*rfactura.liniaFactura.get(i).quantitat)))+"ï¿½")+"\n";
 			}
 			frase=frase+"-----TOTALS----- \n";
-			frase=frase+"Total sense iva: "+String.format("%.2f",totalPreu)+"€ \n";
-			frase=frase+"Total iva: "+String.format("%.2f",totalIva)+"€ \n";
-			frase=frase+"Total amb iva: "+String.format("%.2f",(totalIva+totalPreu))+"€ \n";
+			frase=frase+"Total sense iva: "+String.format("%.2f",totalPreu)+"ï¿½ \n";
+			frase=frase+"Total iva: "+String.format("%.2f",totalIva)+"ï¿½ \n";
+			frase=frase+"Total amb iva: "+String.format("%.2f",(totalIva+totalPreu))+"ï¿½ \n";
 			escriptor.println(frase);
 			escriptor.close();
 		}
@@ -306,5 +306,115 @@ public class Empresa {
         	afegirUnitatsVenudes(rfactura.liniaFactura.get(i).quantitat,rfactura.liniaFactura.get(i).codi,con);
         	rs.insertRow();
         }
+	}
+	public static String llistarDadesFactura(int factura,Connection con) throws SQLException {
+		Statement stmt=con.createStatement(0,ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs=stmt.executeQuery("SELECT * FROM factura WHERE num_factura='"+factura+"'");
+        String frase="";
+        while(rs.next()) {
+        	frase=frase+"-----DADES EMPRESA----- \n";
+			frase=frase+"Numero de factura: "+factura+"\n";
+			frase=frase+"Data de factura: "+rs.getDate("data_factura")+"\n";
+        }
+        frase=frase+llistarDadesClient(factura,con)+llistarLiniaFactura(factura,con);
+        return frase;
+	}
+	public static String llistarDadesClient(int factura,Connection con) throws SQLException {
+		Statement stmt=con.createStatement(0,ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs=stmt.executeQuery("SELECT * FROM factura WHERE num_factura='"+factura+"'");
+        String frase="";
+        while (rs.next()) {
+        	frase=frase+"-----DADES CLIENT----- \n";
+			frase=frase+"Dni: "+rs.getString("dni")+"\n";
+			frase=frase+"Nom: "+rs.getString("nom")+"\n";
+			frase=frase+"Telefon: "+rs.getInt("telefon")+"\n";
+			frase=frase+"Correu Electronic: "+rs.getString("correu_electronic")+"\n";
+			frase=frase+"Adreca: "+rs.getString("adreca")+"\n";
+        }
+        return frase;
+	}
+	public static String llistarDFacturesClient(String dni,Connection con) throws SQLException {
+		Statement stmt=con.createStatement(0,ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs=stmt.executeQuery("SELECT * FROM clients WHERE dni='"+dni+"'");
+        String frase="";
+        if(!rs.next()) {
+        	frase=frase+"El client no existeix";
+        }
+        else {
+        	while (rs.next()) {
+        	frase=frase+"-----DADES CLIENT----- \n";
+			frase=frase+"Dni: "+rs.getString("dni")+"\n";
+			frase=frase+"Nom: "+rs.getString("nom")+"\n";
+			frase=frase+"Telefon: "+rs.getInt("telefon")+"\n";
+			frase=frase+"Correu Electronic: "+rs.getString("correu_electronic")+"\n";
+			frase=frase+"Adreca: "+rs.getString("adreca")+"\n";
+        	}
+        	frase=frase+llistarDadesFactura(dni,con);
+        }
+        
+        return frase;
+	}
+	public static String llistarDadesFactura(String dni,Connection con) throws SQLException {
+		Statement stmt=con.createStatement(0,ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs=stmt.executeQuery("SELECT * FROM factura WHERE dni='"+dni+"'");
+        String frase="";
+        while(rs.next()) {
+        	frase=frase+"-----DADES EMPRESA----- \n";
+			frase=frase+"Numero de factura: "+rs.getInt("num_factura")+"\n";
+			frase=frase+"Data de factura: "+rs.getDate("data_factura")+"\n";
+			frase=frase+llistarLiniaFactura(rs.getInt("num_factura"),con);
+        }
+        return frase;
+	}
+	public static String llistarLiniaFactura(int factura,Connection con) throws SQLException {
+		Statement stmt=con.createStatement(0,ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs=stmt.executeQuery("SELECT * FROM linia_factura WHERE num_factura='"+factura+"'");
+        String frase="";
+        frase=frase+"-----PRODUCTES----- \n";
+		frase=frase+"CODI"+"|"+String.format("%-40s","NOM")+"|"+"Quantitat"+"|"
+           		+"Preu Sense Iva"+"|"+"Iva"+"|"
+           		+"Cost Iva"+"|"+"Preu amb Iva"+"\n";
+		double totalPreu=0;
+		double totalIva=0;
+		while(rs.next()) {
+			totalPreu=totalPreu+rs.getDouble("preu_producte")*rs.getInt("quantitat");
+			double calculIva=((rs.getDouble("preu_producte")*rs.getInt("quantitat"))*rs.getInt("iva"))/100;
+			totalIva=totalIva+calculIva;
+			frase=frase+rs.getString("codi_producte")+"|"+String.format("%-40s",rs.getString("nom_producte"))+"|"
+					+String.format("%-9s",rs.getInt("quantitat"))+"|"
+					+String.format("%-14s", String.format("%.2f",rs.getDouble("preu_producte"))+"ï¿½")+"|"
+					+String.format("%-3s",rs.getInt("iva")+"%")+"|"
+	           		+String.format("%-8s",String.format("%.2f",calculIva)+"ï¿½")+"|"
+					+String.format("%-8s",String.format("%.2f",(calculIva+(rs.getDouble("preu_producte")*rs.getInt("quantitat"))))+"ï¿½")+"\n";
+		}
+		frase=frase+"-----TOTALS----- \n";
+		frase=frase+"Total sense iva: "+String.format("%.2f",totalPreu)+"ï¿½ \n";
+		frase=frase+"Total iva: "+String.format("%.2f",totalIva)+"ï¿½ \n";
+		frase=frase+"Total amb iva: "+String.format("%.2f",(totalIva+totalPreu))+"ï¿½ \n";
+        return frase;
+	}
+	public static String estadisticasProductes(Connection con) throws SQLException{
+		Statement stmt=con.createStatement(0,ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs=stmt.executeQuery("SELECT * FROM productes");
+        String frase="";
+        frase=frase+"CODI"+"|"+String.format("%-40s","NOM")+"|"+"STOCK"+"|"
+        +"UNITATS VENUDES";
+        while(rs.next()) {
+        	frase=frase+rs.getString("codi_producte")+"|"+String.format("%-40s",rs.getString("nom_producte"))+"|"
+        	+String.format("%-5s",rs.getInt("stock"))+"|"+String.format("%-15s",rs.getInt("unitats_venudes"));
+        }
+        return frase;
+	}
+	public static String estadisticasProductes(String codiProducte,Connection con) throws SQLException{
+		Statement stmt=con.createStatement(0,ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs=stmt.executeQuery("SELECT * FROM productes WHERE codi_producte='"+codiProducte+"'");
+        String frase="";
+        while(rs.next()) {
+        	frase=frase+"CODI"+"|"+String.format("%-40s","NOM")+"|"+"STOCK"+"|"
+        	+"UNITATS VENUDES";
+        	frase=frase+rs.getString("codi_producte")+"|"+String.format("%-40s",rs.getString("nom_producte"))+"|"
+        	+String.format("%-5s",rs.getInt("stock"))+"|"+String.format("%-15s",rs.getInt("unitats_venudes"));
+        }
+        return frase;
 	}
 }
