@@ -96,6 +96,10 @@ COPY public.clients (dni, contrasenya, nom, correu_electronic, telefon, adreca) 
 41582949P	Manolo123	Manolo	manolo@gmail.com	654983217	Placa major la bisbal
 41582628T	Guillem1234	Guillem	guillem@gmail.com	784512369	Avinguda montilivi girona
 41235689Y	Mias12345	Jordi mias	jmias@gmail.com	123456789	Calonge
+41587859T	Joel12345	Joel	joel@gmail.com	456789123	La bisbal
+78945612Y	Iu1234567	Iu	iu@gmail.com	456789321	Palamos
+78965425Y	Jaume1234	Jaume	jaume@palamos.com	456987451	Calonge
+69898989Y	Maria1234	Maria	maria@labisbal.cat	412536789	La bisbal
 \.
 
 
