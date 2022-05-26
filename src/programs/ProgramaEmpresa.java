@@ -102,7 +102,7 @@ public class ProgramaEmpresa {
 									String preu=lector.nextLine();
 									while(!FuncionsGenerals.validarDouble(preu)) {
 										System.out.println("El preu conte lletres o mes de un punt");
-										System.out.println("Stock inicial");
+										System.out.println("Preu");
 										preu=lector.nextLine();
 									}
 									rProducte.preu=Double.parseDouble(preu);
@@ -132,6 +132,7 @@ public class ProgramaEmpresa {
 										opcioModificarProducteInt=Integer.parseInt(opcioModificarProducte);
 										switch(opcioModificarProducteInt) {
 											case 1:
+												System.out.println(Empresa.llistarTotsProductes(con));
 												System.out.println("Codi producte(Ha de tenir 2 numeros i 2 lletres)");
 												codiProducte=lector.nextLine();
 												while(!Empresa.validarCodiProducte(codiProducte)) {
@@ -158,6 +159,7 @@ public class ProgramaEmpresa {
 												}
 												break;
 											case 2:
+												System.out.println(Empresa.llistarTotsProductes(con));
 												System.out.println("Codi producte(Ha de tenir 2 numeros i 2 lletres)");
 												codiProducte=lector.nextLine();
 												while(!Empresa.validarCodiProducte(codiProducte)) {
@@ -184,6 +186,7 @@ public class ProgramaEmpresa {
 												}												
 												break;
 											case 3:
+												System.out.println(Empresa.llistarTotsProductes(con));
 												System.out.println("Codi producte(Ha de tenir 2 numeros i 2 lletres)");
 												codiProducte=lector.nextLine();
 												while(!Empresa.validarCodiProducte(codiProducte)) {
@@ -215,6 +218,7 @@ public class ProgramaEmpresa {
 									}while(opcioModificarProducteInt!=4);
 									break;
 								case 3:
+									System.out.println(Empresa.llistarTotsProductes(con));
 									System.out.println("Codi producte(Ha de tenir 2 numeros i 2 lletres)");
 									codiProducte=lector.nextLine();
 									while(!Empresa.validarCodiProducte(codiProducte)) {

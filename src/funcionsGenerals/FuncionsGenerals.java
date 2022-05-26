@@ -28,11 +28,13 @@ public class FuncionsGenerals {
 			while(str1<strToDouble[0].length()&&Character.isDigit(strToDouble[0].charAt(str1))) {
 				str1++;
 			}
+			if(strToDouble[0].length()!=str1) str1++;
 			int str2 = 0;
 			while(str2<strToDouble[1].length()&&Character.isDigit(strToDouble[1].charAt(str2))) {
 				str2++;
 			}
-			if(Character.isDigit(strToDouble[1].charAt(str2-1))&&Character.isDigit(strToDouble[0].charAt(str1-1))) {
+			if(strToDouble[1].length()!=str2) str2++;
+			if(Character.isDigit(strToDouble[1].charAt(str2))&&Character.isDigit(strToDouble[0].charAt(str1))) {
 				return true;
 			}else return false;
 		}else if(strToDouble.length==1) {
@@ -40,7 +42,8 @@ public class FuncionsGenerals {
 			while(str1<strToDouble[0].length()&&Character.isDigit(strToDouble[0].charAt(str1))) {
 				str1++;
 			}
-			if(Character.isDigit(strToDouble[0].charAt(str1-1))) {
+			if(strToDouble[0].length()!=str1) str1++;
+			if(Character.isDigit(strToDouble[0].charAt(str1))) {
 				return true;
 			}else return false;
 		}else return false;

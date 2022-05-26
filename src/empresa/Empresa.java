@@ -126,6 +126,24 @@ public class Empresa {
     	}
         return frase;
 	}
+	public static String llistarTotsProductes(Connection con) throws SQLException{
+		Statement stmt=con.createStatement(0,ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs=stmt.executeQuery("SELECT * FROM productes");
+        String frase="\n";
+        frase=frase+"CODI"+"|"+String.format("%-40s","NOM")+"|"
+               		+"Preu Sense Iva"+"|"+"Iva"+"|"
+               		+String.format("%-14s","Cost Iva")+"|"+"Preu amb Iva"+"\n";
+        while(rs.next()) {        	
+        		double preu=rs.getDouble("preu");
+        		int iva=rs.getInt("iva");
+        		double calculIva=(preu*iva)/100;
+        		frase=frase+rs.getString("codi")+"|"+String.format("%-40s", rs.getString("nom"))+"|"
+        			+String.format("%-14s", String.format("%.2f",preu)+" Euros")+"|"+String.format("%-3s",rs.getInt("iva")+"%")+"|"
+        			+String.format("%-14s",String.format("%.2f",calculIva)+" Euros")+"|"
+        			+String.format("%-8s",String.format("%.2f",((calculIva+rs.getDouble("preu"))))+" Euros")+"\n";  		
+    	}
+        return frase;
+	}
 	public static int numeroFactura(Connection con) throws SQLException{
 		Statement stmt=con.createStatement(0,ResultSet.CONCUR_READ_ONLY);
         ResultSet rs=stmt.executeQuery("SELECT num_factura FROM factura ORDER BY num_factura desc LIMIT 1");
@@ -177,7 +195,8 @@ public class Empresa {
 		frase=frase+"-----PRODUCTES----- \n";
 		frase=frase+"CODI"+"|"+String.format("%-40s","NOM")+"|"+"Quantitat"+"|"
            		+"Preu Sense Iva"+"|"+"Iva"+"|"
-           		+String.format("%-14s","Cost Iva")+"|"+"Preu amb Iva"+"\n";
+           		+String.format("%-11s","Cost Iva")+"|"+"Preu amb Iva"+"\n";
+		frase=frase+"-------------------------------------------------------------------------------------------------------\n";
 		double totalPreu=0;
 		double totalIva=0;
 		for(int i=0;i<rfactura.liniaFactura.size();i++) {
@@ -188,8 +207,9 @@ public class Empresa {
 					+String.format("%-9s",rfactura.liniaFactura.get(i).quantitat)+"|"
 					+String.format("%-14s", String.format("%.2f",rfactura.liniaFactura.get(i).preu)+" Euros")+"|"
 					+String.format("%-3s",rfactura.liniaFactura.get(i).iva+"%")+"|"
-	           		+String.format("%-8s",String.format("%.2f",calculIva)+" Euros")+"|"
+	           		+String.format("%-11s",String.format("%.2f",calculIva)+" Euros")+"|"
 					+String.format("%-8s",String.format("%.2f",(calculIva+(rfactura.liniaFactura.get(i).preu*rfactura.liniaFactura.get(i).quantitat)))+" Euros")+"\n";
+			frase=frase+"-------------------------------------------------------------------------------------------------------\n";
 		}
 		frase=frase+"-----TOTALS----- \n";
 		frase=frase+"Total sense iva: "+String.format("%.2f",totalPreu)+" Euros \n";
@@ -201,7 +221,8 @@ public class Empresa {
 		String frase="";
 		frase=frase+"NUMERO DE LINIA"+"|"+"CODI"+"|"+String.format("%-40s","NOM")+"|"+"Quantitat"+"|"
            		+"Preu Sense Iva"+"|"+"Iva"+"|"
-           		+String.format("%-14s","Cost Iva")+"|"+"Preu amb Iva"+"\n";
+           		+String.format("%-11s","Cost Iva")+"|"+"Preu amb Iva"+"\n";
+		frase=frase+"-------------------------------------------------------------------------------------------------------\n";
 		double totalPreu=0;
 		double totalIva=0;
 		for(int i=0;i<rfactura.liniaFactura.size();i++) {
@@ -212,8 +233,9 @@ public class Empresa {
 					+String.format("%-9s",rfactura.liniaFactura.get(i).quantitat)+"|"
 					+String.format("%-14s", String.format("%.2f",rfactura.liniaFactura.get(i).preu)+" Euros")+"|"
 					+String.format("%-3s",rfactura.liniaFactura.get(i).iva+"%")+"|"
-	           		+String.format("%-8s",String.format("%.2f",calculIva)+" Euros")+"|"
+	           		+String.format("%-11s",String.format("%.2f",calculIva)+" Euros")+"|"
 					+String.format("%-8s",String.format("%.2f",(calculIva+(rfactura.liniaFactura.get(i).preu*rfactura.liniaFactura.get(i).quantitat)))+" Euros")+"\n";
+			frase=frase+"-------------------------------------------------------------------------------------------------------\n";
 		}
 		frase=frase+"-----TOTALS----- \n";
 		frase=frase+"Total sense iva: "+String.format("%.2f",totalPreu)+" Euros \n";
@@ -247,7 +269,8 @@ public class Empresa {
 			frase=frase+"-----PRODUCTES----- \n";
 			frase=frase+"CODI"+"|"+String.format("%-40s","NOM")+"|"+"Quantitat"+"|"
 	           		+"Preu Sense Iva"+"|"+"Iva"+"|"
-	           		+String.format("%-14s","Cost Iva")+"|"+"Preu amb Iva"+"\n";
+	           		+String.format("%-11s","Cost Iva")+"|"+"Preu amb Iva"+"\n";
+			frase=frase+"-------------------------------------------------------------------------------------------------------\n";
 			double totalPreu=0;
 			double totalIva=0;
 			for(int i=0;i<rfactura.liniaFactura.size();i++) {
@@ -258,8 +281,9 @@ public class Empresa {
 						+String.format("%-9s",rfactura.liniaFactura.get(i).quantitat)+"|"
 						+String.format("%-14s", String.format("%.2f",rfactura.liniaFactura.get(i).preu)+" Euros")+"|"
 						+String.format("%-3s",rfactura.liniaFactura.get(i).iva+"%")+"|"
-		           		+String.format("%-8s",String.format("%.2f",calculIva)+" Euros")+"|"
+		           		+String.format("%-11s",String.format("%.2f",calculIva)+" Euros")+"|"
 						+String.format("%-8s",String.format("%.2f",(calculIva+(rfactura.liniaFactura.get(i).preu*rfactura.liniaFactura.get(i).quantitat)))+" Euros")+"\n";
+				frase=frase+"-------------------------------------------------------------------------------------------------------\n";
 			}
 			frase=frase+"-----TOTALS----- \n";
 			frase=frase+"Total sense iva: "+String.format("%.2f",totalPreu)+" Euros \n";
@@ -385,6 +409,7 @@ public class Empresa {
 		frase=frase+"CODI"+"|"+String.format("%-40s","NOM")+"|"+"Quantitat"+"|"
            		+"Preu Sense Iva"+"|"+"Iva"+"|"
            		+String.format("%-14s","Cost Iva")+"|"+"Preu amb Iva"+"\n";
+		frase=frase+"-------------------------------------------------------------------------------------------------------\n";
 		double totalPreu=0;
 		double totalIva=0;
 		while(rs.next()) {
@@ -397,6 +422,7 @@ public class Empresa {
 					+String.format("%-3s",rs.getInt("iva")+"%")+"|"
 	           		+String.format("%-14s",String.format("%.2f",calculIva)+" Euros")+"|"
 					+String.format("%-8s",String.format("%.2f",(calculIva+(rs.getDouble("preu_producte")*rs.getInt("quantitat"))))+" Euros")+"\n";
+			frase=frase+"-------------------------------------------------------------------------------------------------------\n";
 		}
 		frase=frase+"-----TOTALS----- \n";
 		frase=frase+"Total sense iva: "+String.format("%.2f",totalPreu)+" Euros \n";

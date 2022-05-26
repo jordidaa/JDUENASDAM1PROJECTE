@@ -95,6 +95,7 @@ COPY public.clients (dni, contrasenya, nom, correu_electronic, telefon, adreca) 
 41582948Y	Jordi1234	Jordi Dueñas	jordi@gmail.com	610020865	Penya Bisbalenca 19
 41582949P	Manolo123	Manolo	manolo@gmail.com	654983217	Placa major la bisbal
 41582628T	Guillem1234	Guillem	guillem@gmail.com	784512369	Avinguda montilivi girona
+41235689Y	Mias12345	Jordi mias	jmias@gmail.com	123456789	Calonge
 \.
 
 
@@ -106,6 +107,10 @@ COPY public.factura (num_factura, data_factura, dni, nom, correu_electronic, tel
 1	2022-05-24	41582948Y	Jordi Dueñas	Jordidaa@gmail.com	610020865	Penya Bisbalenca 19
 2	2022-05-24	41582948Y	Jordi Dueñas	Jordidaa@gmail.com	610020865	Penya Bisbalenca 19
 3	2022-05-24	41582948Y	Jordi Dueñas	jordi@gmail.com	610020865	Penya Bisbalenca 19
+4	2022-05-26	41235689Y	Jordi mias	jmias@gmail.com	123456789	Calonge
+5	2022-05-26	41582948Y	Jordi Dueñas	jordi@gmail.com	610020865	Penya Bisbalenca 19
+6	2022-05-26	41582948Y	Jordi Dueñas	jordi@gmail.com	610020865	Penya Bisbalenca 19
+7	2022-05-26	41582948Y	Jordi Dueñas	jordi@gmail.com	610020865	Penya Bisbalenca 19
 \.
 
 
@@ -118,6 +123,11 @@ COPY public.linia_factura (num_factura, num_linia, preu_producte, iva, quantitat
 1	2	0.5	21	6	Cocacola	CO01
 2	1	2	21	1	Red bull	RB01
 3	1	1.95	20	1	Red bull	RB01
+4	1	0.6	21	4	Fanta de llimona	01FA
+4	2	2	4	4	Llimonada	LL00
+5	1	0.6	4	5	Vichi catalan	VC01
+6	1	0.6	4	1	Vichi catalan	VC01
+7	1	2	4	2	Llimonada	LL00
 \.
 
 
@@ -126,16 +136,16 @@ COPY public.linia_factura (num_factura, num_linia, preu_producte, iva, quantitat
 --
 
 COPY public.productes (codi, nom, stock, preu, iva, unitats_venudes) FROM stdin;
-01FA	Fanta de llimona	4	0.6	21	0
 02FA	Fanta de tronja	9	0.6	21	0
 AG01	Aigua font vella	7	0.4	6	0
 CO01	Cocacola	189	0.5	21	21
 RB01	Red bull	5	1.95	20	7
 CO02	Cocacola zero	25	0.5	16	0
-VC01	Vichi catalan	6	0.6	4	0
 AQ01	aquarius llimona	5	0.6	25	0
 ZT01	Suc de tronja	5	1	25	0
-LL00	Llimonada	6	2	4	0
+01FA	Fanta de llimona	0	0.6	21	4
+VC01	Vichi catalan	8	0.6	4	6
+LL00	Llimonada	0	2	4	6
 \.
 
 

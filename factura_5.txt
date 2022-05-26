@@ -1,0 +1,17 @@
+-----DADES EMPRESA----- 
+Numero de factura: 5
+Data de factura: 26/5/2022
+-----DADES CLIENT----- 
+Dni: 41582948Y
+Nom: Jordi Dueñas
+Telefon: 610020865
+Correu Electronic: jordi@gmail.com
+Adreca: Penya Bisbalenca 19
+-----PRODUCTES----- 
+CODI|NOM                                     |Quantitat|Preu Sense Iva|Iva|Cost Iva      |Preu amb Iva
+VC01|Vichi catalan                           |5        |0,60 Euros    |4% |0,12 Euros|3,12 Euros
+-----TOTALS----- 
+Total sense iva: 3,00 Euros 
+Total iva: 0,12 Euros 
+Total amb iva: 3,12 Euros 
+

@@ -1,0 +1,18 @@
+-----DADES EMPRESA----- 
+Numero de factura: 4
+Data de factura: 26/5/2022
+-----DADES CLIENT----- 
+Dni: 41235689Y
+Nom: Jordi mias
+Telefon: 123456789
+Correu Electronic: jmias@gmail.com
+Adreca: Calonge
+-----PRODUCTES----- 
+CODI|NOM                                     |Quantitat|Preu Sense Iva|Iva|Cost Iva      |Preu amb Iva
+01FA|Fanta de llimona                        |4        |0,60 Euros    |21%|0,50 Euros|2,90 Euros
+LL00|Llimonada                               |4        |2,00 Euros    |4% |0,32 Euros|8,32 Euros
+-----TOTALS----- 
+Total sense iva: 10,40 Euros 
+Total iva: 0,82 Euros 
+Total amb iva: 11,22 Euros 
+
