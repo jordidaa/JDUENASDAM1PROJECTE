@@ -93,6 +93,8 @@ ALTER TABLE public.productes OWNER TO postgres;
 COPY public.clients (dni, contrasenya, nom, correu_electronic, telefon, adreca) FROM stdin;
 49582915L	Pepe12345	Pepe	pepe@gmail.com	976363938	Carrer jaume 2n girona
 41582948Y	Jordi1234	Jordi Dueñas	jordi@gmail.com	610020865	Penya Bisbalenca 19
+41582949P	Manolo123	Manolo	manolo@gmail.com	654983217	Placa major la bisbal
+41582628T	Guillem1234	Guillem	guillem@gmail.com	784512369	Avinguda montilivi girona
 \.
 
 
@@ -129,6 +131,11 @@ COPY public.productes (codi, nom, stock, preu, iva, unitats_venudes) FROM stdin;
 AG01	Aigua font vella	7	0.4	6	0
 CO01	Cocacola	189	0.5	21	21
 RB01	Red bull	5	1.95	20	7
+CO02	Cocacola zero	25	0.5	16	0
+VC01	Vichi catalan	6	0.6	4	0
+AQ01	aquarius llimona	5	0.6	25	0
+ZT01	Suc de tronja	5	1	25	0
+LL00	Llimonada	6	2	4	0
 \.
 
 
